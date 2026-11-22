@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>HoneyHive 🐝 Earn</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://unpkg.com/@tonconnect/ui@2.0.9/dist/tonconnect-ui.min.js"></script>
 <style>
   :root{
     --bg:#0d1a10;
@@ -377,12 +378,350 @@
   }
   .press{animation:pressAnim .18s ease}
   @keyframes pressAnim{0%{transform:scale(1)}50%{transform:scale(.93)}100%{transform:scale(1)}}
+
+  /* ================= MYAGEAPP v3 — black premium + honey yellow =================
+     Pure black base, dark grey cards, big white numbers, honey-yellow accent,
+     pill bottom nav, segmented tabs — MyAgeApp's layout, HoneyHive's bees. */
+  :root{
+    --bg:#000000;
+    --bg2:#0a0a0a;
+    --card:#1c1c1e;
+    --card2:#2c2c2e;
+    --border:rgba(255,255,255,.09);
+    --text:#ffffff;
+    --muted:#8e8e93;
+    --gold:#ffc531;
+    --gold2:#ffd75e;
+    --amber:#f5a623;
+    --green:#34c759;
+    --green2:#30d158;
+    --blue:#2f7cf6;
+    --red:#ff453a;
+    --cyan:#32ade6;
+    --magenta:#e879f9;
+    --pink:#f472b6;
+    --violet:#8b5cf6;
+    --grad:linear-gradient(135deg,#ffd75e,#f5a623);
+    --grad-gold:linear-gradient(135deg,#ffe27a,#ffc531);
+    --grad-text:linear-gradient(90deg,#ffe27a,#ffc531);
+    --radius:20px;
+    --shadow:0 8px 24px rgba(0,0,0,.55);
+    --glow-gold:0 0 22px rgba(255,197,49,.35);
+  }
+  body{
+    background:var(--bg);
+    background-image:radial-gradient(700px 320px at 50% -120px,rgba(255,197,49,.09),transparent);
+  }
+  main{padding-bottom:118px}
+  .grad-text{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent}
+  header .logo{box-shadow:0 0 0 2px rgba(255,197,49,.55),0 0 16px rgba(255,197,49,.25);border-radius:50%}
+  header h1{color:#fff}
+  header p{color:var(--muted)}
+  .avatar{
+    width:44px;height:44px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:20px;font-weight:900;color:#1a1a1a;background:var(--grad-gold);
+    box-shadow:0 0 14px rgba(255,197,49,.4);
+  }
+  .pill{
+    background:#1c1c1e;border:1px solid rgba(255,255,255,.1);box-shadow:none;
+  }
+  .pill small{color:var(--gold2)}
+  #demoBanner{
+    background:#1c1c1e;border:1px solid rgba(255,197,49,.4);
+  }
+  #demoBanner a{color:var(--gold2)}
+  .card{
+    background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow);
+    backdrop-filter:none;-webkit-backdrop-filter:none;
+  }
+  .card h2{color:#fff}
+  .card-title{color:#fff}
+  .sub{color:var(--muted)}
+  .btn{
+    color:#1a1a1a;background:var(--grad);font-weight:900;
+    box-shadow:0 8px 22px rgba(245,166,35,.35);
+  }
+  .btn:active{box-shadow:0 4px 12px rgba(245,166,35,.3)}
+  .btn.gold{background:var(--grad);color:#1a1a1a;box-shadow:0 8px 22px rgba(245,166,35,.35)}
+  .btn.blue{background:#2f7cf6;color:#fff;box-shadow:0 8px 20px rgba(47,124,246,.35)}
+  .btn.dark{background:#2c2c2e;color:var(--text);border:1px solid rgba(255,255,255,.12);box-shadow:none}
+  .btn.armed{background:linear-gradient(135deg,#ff453a,#ff9f0a);color:#fff;box-shadow:0 8px 22px rgba(255,69,58,.4)}
+  .seg{background:#1c1c1e;border:1px solid var(--border)}
+  .seg button{color:var(--muted)}
+  .seg button.active{background:#3a3a3c;color:#fff;box-shadow:none}
+
+  /* ---------- big balance (MyAgeApp home) ---------- */
+  .big-balance{text-align:center;padding:14px 6px 4px}
+  .big-balance .bal-label{font-size:13px;color:var(--muted);letter-spacing:.4px}
+  .big-balance .bal-num{font-size:46px;font-weight:900;color:#fff;line-height:1.15;margin-top:2px}
+  .big-balance .bal-num .coin{font-size:38px;vertical-align:-2px}
+  .big-balance .bal-usd{font-size:14px;color:var(--muted);margin-top:2px}
+  .big-balance .bal-usd b{color:var(--gold2)}
+  .round-actions{display:flex;justify-content:center;gap:34px;margin:18px 0 6px}
+  .round-act{background:none;border:0;color:var(--text);font-family:inherit;cursor:pointer;padding:0}
+  .round-act .ra-ic{
+    width:62px;height:62px;border-radius:50%;background:#1c1c1e;border:1px solid rgba(255,255,255,.1);
+    display:flex;align-items:center;justify-content:center;font-size:27px;margin:0 auto;
+    box-shadow:0 6px 16px rgba(0,0,0,.5);transition:transform .15s ease;
+  }
+  .round-act:active .ra-ic{transform:scale(.92)}
+  .round-act span{display:block;font-size:12px;font-weight:700;margin-top:7px;color:#e5e5ea}
+
+  /* ---------- refill bar — honey fills up live ---------- */
+  .ready-card{
+    background:var(--card);border:1px solid rgba(255,197,49,.35);color:var(--text);
+    box-shadow:var(--shadow),var(--glow-gold);display:block;padding:14px 16px;
+  }
+  .ready-card .refill-top{display:flex;align-items:center;gap:11px}
+  .ready-card .ic{font-size:24px;flex:none}
+  .ready-card .amt{flex:1;min-width:0}
+  .ready-card .amt b{font-size:19px;color:#fff}
+  .ready-card .amt span{display:block;font-size:12px;color:var(--muted);margin-top:1px}
+  .ready-card .usd{color:var(--gold2);font-weight:800;font-size:14px;white-space:nowrap}
+  .refill-bar{
+    height:12px;border-radius:999px;background:#2c2c2e;margin-top:12px;overflow:hidden;position:relative;
+  }
+  .refill-bar i{
+    display:block;height:100%;width:0%;border-radius:999px;
+    background:linear-gradient(90deg,#ffe27a,#ffc531 55%,#f5a623);
+    box-shadow:0 0 12px rgba(255,197,49,.65);
+    transition:width 1.1s ease;position:relative;overflow:hidden;
+  }
+  .refill-bar i::after{ /* shimmer */
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,.55) 50%,transparent 80%);
+    animation:refillShine 2.2s linear infinite;
+  }
+  @keyframes refillShine{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+  .refill-sub{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:8px}
+  .refill-sub b{color:var(--gold2)}
+  .refill-card.burst{animation:refillBurst .7s ease}
+  @keyframes refillBurst{
+    0%{transform:scale(1)}
+    30%{transform:scale(1.035);box-shadow:0 0 0 2px rgba(255,197,49,.7),0 0 34px rgba(255,197,49,.55)}
+    100%{transform:scale(1)}
+  }
+
+  /* ---------- farm scene: golden dusk + flying bees ---------- */
+  .scene{
+    background:
+      linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.5) 100%),
+      url('assets/farm-bg.jpg') center 62%/cover no-repeat;
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:var(--shadow),0 0 26px rgba(255,197,49,.18);
+  }
+  .scene::after{ /* glass reflection */
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:linear-gradient(115deg,rgba(255,255,255,.12) 0%,transparent 28%);
+  }
+  .sun{
+    background:radial-gradient(circle at 35% 35%,#fff7cc,#ffd75e 55%,#f5a623);
+    box-shadow:0 0 40px 12px rgba(255,197,49,.5);
+  }
+  .sun::before{background:conic-gradient(from 0deg,rgba(255,197,49,.5) 0 8deg,transparent 8deg 30deg,rgba(255,197,49,.5) 30deg 38deg,transparent 38deg 60deg,rgba(255,197,49,.5) 60deg 68deg,transparent 68deg 90deg,rgba(255,197,49,.5) 90deg 98deg,transparent 98deg 120deg,rgba(255,197,49,.5) 120deg 128deg,transparent 128deg 150deg,rgba(255,197,49,.5) 150deg 158deg,transparent 158deg 180deg,rgba(255,197,49,.5) 180deg 188deg,transparent 188deg 210deg,rgba(255,197,49,.5) 210deg 218deg,transparent 218deg 240deg,rgba(255,197,49,.5) 240deg 248deg,transparent 248deg 270deg,rgba(255,197,49,.5) 270deg 278deg,transparent 278deg 300deg,rgba(255,197,49,.5) 300deg 308deg,transparent 308deg 330deg,rgba(255,197,49,.5) 330deg 338deg,transparent 338deg 360deg)}
+  .cloud{background:rgba(255,255,255,.85)}
+  .cloud::before,.cloud::after{background:rgba(255,255,255,.85)}
+  .hill.h1{background:linear-gradient(180deg,#3f6212,#14532d)}
+  .hill.h2{background:linear-gradient(180deg,#365314,#052e16)}
+  .pond{ /* honey pool */
+    background:radial-gradient(ellipse at 50% 35%,#ffe27a,#f5a623 70%);
+    box-shadow:inset 0 2px 8px rgba(255,255,255,.55),0 0 16px rgba(255,197,49,.5);
+  }
+  .hive .seg-row{border-color:#78350f;background:linear-gradient(180deg,#fbbf24,#b45309)}
+  .hive .door{background:#451a03}
+  .hive .stand{background:#78350f}
+  .pollen{background:#ffd75e;box-shadow:0 0 10px 2px rgba(255,215,94,.8)}
+  .pollen.p2,.pollen.p5{background:#fff3bf;box-shadow:0 0 10px 2px rgba(255,243,191,.8)}
+  .bee{filter:drop-shadow(0 0 8px rgba(255,197,49,.75));font-size:26px}
+
+  /* ---------- ready / stats / rows ---------- */
+  .stat{background:var(--card);border:1px solid var(--border)}
+  .stat b{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .pill-note b{color:var(--gold2)}
+  .bee-row .right b{color:var(--gold2)}
+  .badge{background:rgba(255,197,49,.14);color:var(--gold2);border-color:rgba(255,197,49,.4)}
+  .badge.gold{background:rgba(245,166,35,.16);color:#ffb340;border-color:rgba(245,166,35,.45)}
+  .day.lit{background:linear-gradient(160deg,rgba(255,215,94,.4),rgba(245,166,35,.4));border-color:#ffc531}
+  .day.today{border-color:#ffd75e;box-shadow:0 0 0 2px rgba(255,197,49,.3)}
+  .spin-wheel{filter:drop-shadow(0 0 14px rgba(255,197,49,.55))}
+
+  /* ---------- shop: premium tier glows + realistic bee art ---------- */
+  .bee-card{background:var(--card);border:1px solid var(--border)}
+  .bee-card .art{font-size:40px}
+  .bee-art{
+    width:100%;height:104px;object-fit:cover;border-radius:14px;margin:8px 0 4px;
+    border:1px solid rgba(255,255,255,.14);box-shadow:0 6px 18px rgba(0,0,0,.45);
+    transition:transform .25s ease,box-shadow .25s ease;
+  }
+  .bee-card:active .bee-art{transform:scale(.96)}
+  .bee-card.tier-basic{box-shadow:0 0 0 1px rgba(251,191,36,.25),0 0 18px rgba(251,191,36,.18)}
+  .bee-card.tier-worker{box-shadow:0 0 0 1px rgba(74,222,128,.3),0 0 18px rgba(74,222,128,.22)}
+  .bee-card.tier-golden{box-shadow:0 0 0 1px rgba(245,179,1,.35),0 0 20px rgba(245,179,1,.28)}
+  .bee-card.tier-queen{box-shadow:0 0 0 1px rgba(232,121,249,.4),0 0 22px rgba(232,121,249,.35)}
+  .bee-card.tier-royal{box-shadow:0 0 0 1px rgba(34,211,238,.4),0 0 24px rgba(34,211,238,.35)}
+  .bee-card.royal{
+    border:2px solid #22d3ee;
+    background:linear-gradient(160deg,rgba(34,211,238,.14),rgba(28,28,30,.9) 55%);
+  }
+  .bee-card.royal .corner{background:linear-gradient(135deg,#22d3ee,#e879f9);color:#fff}
+  .bee-card .yield{color:var(--gold2)}
+  .bee-row .ic img{
+    width:44px;height:44px;object-fit:cover;border-radius:12px;
+    border:1px solid rgba(255,255,255,.16);box-shadow:0 4px 12px rgba(0,0,0,.4);
+  }
+  .bee-row.tier-basic .ic img{box-shadow:0 0 12px rgba(251,191,36,.45)}
+  .bee-row.tier-worker .ic img{box-shadow:0 0 12px rgba(74,222,128,.45)}
+  .bee-row.tier-golden .ic img{box-shadow:0 0 12px rgba(245,179,1,.5)}
+  .bee-row.tier-queen .ic img{box-shadow:0 0 12px rgba(232,121,249,.55)}
+  .bee-row.tier-royal .ic img{box-shadow:0 0 12px rgba(34,211,238,.55)}
+  .nudge{
+    background:#1c1c1e;border:1px solid rgba(255,197,49,.4);
+  }
+
+  /* ---------- wallet ---------- */
+  .balance-card{
+    background:#1c1c1e;color:#fff;border:1px solid rgba(255,197,49,.45);
+    box-shadow:var(--shadow),var(--glow-gold);
+  }
+  .balance-card .big{color:#fff}
+  .balance-card .row{border-top:1px solid rgba(255,255,255,.1)}
+  .progress.light{background:#2c2c2e}
+  .progress.light i{background:var(--grad)}
+  .mono{background:#0a0a0a;border:1px solid rgba(255,255,255,.14)}
+  input[type=number]{background:#2c2c2e;border:1px solid rgba(255,255,255,.14)}
+  input[type=number]:focus{border-color:#ffc531;box-shadow:0 0 0 3px rgba(255,197,49,.25)}
+  input[type=text]{
+    width:100%;background:#2c2c2e;border:1px solid rgba(255,255,255,.14);
+    border-radius:13px;padding:13px 14px;color:var(--text);
+    font-family:inherit;font-size:15px;font-weight:600;outline:none;transition:border-color .25s;
+  }
+  input[type=text]:focus{border-color:#ffc531;box-shadow:0 0 0 3px rgba(255,197,49,.25)}
+  textarea{
+    width:100%;background:#2c2c2e;border:1px solid rgba(255,255,255,.14);
+    border-radius:13px;padding:13px 14px;color:var(--text);
+    font-family:inherit;font-size:15px;outline:none;resize:vertical;min-height:74px;
+  }
+  textarea:focus{border-color:#ffc531}
+  .hist-row .s.PENDING{color:#ffc531}
+  .hist-row .s.APPROVED,.hist-row .s.PAID{color:#30d158}
+  .hist-row .s.REJECTED{color:#ff453a}
+  .hist-row .s.AWAITING_GAS{color:#f5a623}
+
+  /* ---------- friends ---------- */
+  .banner{
+    background:#1c1c1e;color:#fff;
+    border:1px solid rgba(255,197,49,.45);box-shadow:var(--shadow),var(--glow-gold);
+  }
+  .linkbox{background:#0a0a0a;color:var(--gold2)}
+  .friend-row .av{background:var(--grad-gold);color:#1a1a1a}
+
+  /* ---------- TOP (leaderboard) ---------- */
+  .top-title{font-size:30px;font-weight:900;color:#fff;margin:6px 2px 12px}
+  .lb-row{
+    display:flex;align-items:center;gap:12px;padding:13px 4px;
+    border-top:1px solid rgba(255,255,255,.07);
+  }
+  .lb-row:first-of-type{border-top:0}
+  .lb-row .rank{width:30px;flex:none;text-align:center;font-size:16px;font-weight:900;color:#8e8e93}
+  .lb-row .rank.top3{font-size:20px}
+  .lb-row .av{
+    width:44px;height:44px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:18px;font-weight:900;color:#1a1a1a;background:var(--grad-gold);
+  }
+  .lb-row .av.dim{background:#2c2c2e;color:#e5e5ea}
+  .lb-row .linfo{flex:1;min-width:0}
+  .lb-row .linfo b{font-size:15px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lb-row .linfo span{font-size:12px;color:var(--muted);display:block;margin-top:1px}
+  .lb-row .lval{text-align:right;flex:none}
+  .lb-row .lval b{font-size:15px;color:var(--gold2);display:block}
+  .lb-row .lval span{font-size:11px;color:var(--muted);display:block;margin-top:1px}
+  .lb-row.me{background:rgba(255,197,49,.08);border:1px solid rgba(255,197,49,.4);border-radius:14px;padding:13px 10px}
+  .my-rank-card{border:1px solid rgba(255,197,49,.45);box-shadow:var(--shadow),var(--glow-gold)}
+  .my-rank-card b{color:var(--gold2)}
+
+  /* ---------- bottom nav: floating pill (MyAgeApp) ---------- */
+  #bottomnav{
+    position:fixed;left:14px;right:14px;bottom:14px;top:auto;height:auto;
+    background:rgba(28,28,30,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:6px;
+    box-shadow:0 12px 32px rgba(0,0,0,.65);z-index:50;
+  }
+  #bottomnav .inner{max-width:480px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:2px}
+  #bottomnav.six .inner{grid-template-columns:repeat(6,1fr)}
+  #bottomnav button{
+    background:none;border:0;color:#8e8e93;border-radius:999px;padding:7px 0 6px;
+    display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit;cursor:pointer;
+  }
+  #bottomnav button .ic{font-size:21px;line-height:1}
+  #bottomnav button .lb{font-size:10px;font-weight:700}
+  #bottomnav button.active{background:#3a3a3c;color:var(--gold2);box-shadow:none}
+  #bottomnav button.admin-btn{color:#fda4af}
+  #bottomnav button.admin-btn.active{background:rgba(244,63,94,.35);color:#fff}
+
+  /* ---------- toast / floaters ---------- */
+  #toast{
+    background:#1c1c1e;border:1px solid #ffc531;box-shadow:0 0 18px rgba(255,197,49,.35);
+  }
+  #toast a{color:var(--gold2)}
+  .float-up{color:var(--gold2);text-shadow:0 2px 10px rgba(255,197,49,.7)}
+  .btn.busy{pointer-events:none;filter:saturate(.6) brightness(.75)}
+  .btn .spin-ic{display:inline-block;animation:spinIc .8s linear infinite}
+  @keyframes spinIc{to{transform:rotate(360deg)}}
+
+  /* ---------- tasks (MyAgeApp rows) ---------- */
+  .tasks-card{border:1px solid rgba(255,197,49,.4);box-shadow:var(--shadow),var(--glow-gold)}
+  .task-row{
+    display:flex;align-items:center;gap:11px;padding:12px 2px;border-top:1px solid rgba(255,255,255,.08);
+  }
+  .task-row:first-of-type{border-top:0}
+  .task-row .tic{
+    width:44px;height:44px;flex:none;border-radius:13px;display:flex;align-items:center;justify-content:center;
+    font-size:22px;background:#2c2c2e;border:1px solid rgba(255,255,255,.1);
+  }
+  .task-row .tinfo{flex:1;min-width:0}
+  .task-row .tinfo b{font-size:14px;display:block}
+  .task-row .tinfo span{font-size:12px;color:var(--muted);display:block;line-height:1.45;margin-top:1px}
+  .task-row .tinfo .trew{color:var(--gold2);font-weight:800}
+  .task-row.done{opacity:.75}
+  .task-row.done .tic{background:rgba(255,197,49,.2);border-color:#ffc531}
+  .task-row .tbtn{flex:none}
+  .task-row .tbtn .btn{padding:9px 13px;font-size:13px;border-radius:999px;width:auto;white-space:nowrap;background:#2f7cf6;color:#fff;box-shadow:0 6px 16px rgba(47,124,246,.35)}
+  .task-row .tbtn .btn.dark{padding:9px 13px;background:#2c2c2e;color:var(--text);box-shadow:none}
+  .task-done-badge{
+    display:inline-block;background:rgba(255,197,49,.16);color:var(--gold2);border:1px solid rgba(255,197,49,.45);
+    border-radius:999px;font-size:11px;font-weight:800;padding:4px 10px;white-space:nowrap;
+  }
+
+  /* ---------- TON connect / gas ---------- */
+  .ton-status{
+    display:flex;align-items:center;gap:9px;padding:11px 12px;border-radius:12px;
+    background:#0a0a0a;border:1px solid rgba(255,255,255,.12);font-size:13px;margin-bottom:10px;
+  }
+  .ton-status .dot{width:9px;height:9px;border-radius:50%;background:#636366;flex:none}
+  .ton-status.on .dot{background:#ffc531;box-shadow:0 0 10px #ffc531}
+  .ton-status .addr{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--gold2);word-break:break-all}
+  .gas-pay-card{border:1px solid rgba(255,197,49,.5);box-shadow:var(--shadow),var(--glow-gold)}
+
+  /* ---------- admin panel ---------- */
+  .admin-badge{
+    display:inline-block;background:linear-gradient(135deg,#f43f5e,#f59e0b);color:#fff;
+    border-radius:999px;font-size:11px;font-weight:900;letter-spacing:1px;padding:4px 11px;
+    box-shadow:0 0 14px rgba(244,63,94,.55);
+  }
+  .admin-card{border:1px solid rgba(244,63,94,.5);box-shadow:var(--shadow),0 0 20px rgba(244,63,94,.25)}
+  .admin-stat b{background:linear-gradient(90deg,#fda4af,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .q-row{display:flex;align-items:center;gap:9px;padding:10px 2px;border-top:1px solid rgba(255,255,255,.08);font-size:13px}
+  .q-row:first-of-type{border-top:0}
+  .q-row .qinfo{flex:1;min-width:0;line-height:1.45}
+  .q-row .qinfo small{color:var(--muted);display:block;font-size:11px}
+  .q-row .btn{padding:8px 11px;font-size:12px;width:auto;border-radius:10px}
+  .q-row .btn.danger{background:linear-gradient(135deg,#f43f5e,#be123c);box-shadow:0 6px 16px rgba(244,63,94,.4)}
 </style>
 </head>
 <body>
 <div id="app">
   <header>
-    <img class="logo" src="assets/honeyhive-logo.png" alt="HoneyHive logo" onerror="this.style.display='none'">
+    <div class="avatar" id="headerAvatar">H</div>
     <div class="title">
       <h1>HoneyHive 🐝 Earn</h1>
       <p>Bees make honey, honey is money!</p>
@@ -396,10 +735,33 @@
   <main>
     <!-- ================= FARM ================= -->
     <section class="tab active" id="tab-farm">
-      <div class="ready-card">
-        <div class="ic">🍯</div>
-        <div class="amt"><b id="readyAmt">0</b><span>Ready to collect — from your bees</span></div>
-        <div class="usd" id="readyUsd">$0.00</div>
+      <div class="card tasks-card">
+        <div class="card-title">🎯 Tasks — Earn First!</div>
+        <div class="sub" style="margin-bottom:4px">Pehle task complete karo, phir farm karo. Har task ka reward turant milega! 🍯</div>
+        <div id="tasksList"></div>
+      </div>
+
+      <!-- Big balance (MyAgeApp home) -->
+      <div class="big-balance">
+        <div class="bal-label">Balance</div>
+        <div class="bal-num"><span class="coin">🍯</span> <span id="bigHoney">0</span></div>
+        <div class="bal-usd"><b id="bigUsd">$0.00</b> &nbsp;•&nbsp; <span id="bigDaily">0 Honey/day</span></div>
+        <div class="round-actions">
+          <button class="round-act" id="raDaily"><span class="ra-ic">🎁</span><span>Daily</span></button>
+          <button class="round-act" id="raSpin"><span class="ra-ic">🎡</span><span>Spin</span></button>
+          <button class="round-act" id="raShop"><span class="ra-ic">🛒</span><span>Shop</span></button>
+        </div>
+      </div>
+
+      <!-- Refill bar: ready honey fills up live as bees work -->
+      <div class="ready-card" id="refillCard">
+        <div class="refill-top">
+          <span class="ic">🍯</span>
+          <div class="amt"><b id="readyAmt">0</b><span>Ready to collect — from your bees</span></div>
+          <div class="usd" id="readyUsd">$0.00</div>
+        </div>
+        <div class="refill-bar"><i id="refillFill"></i></div>
+        <div class="refill-sub"><span id="refillSub">Your bees are working…</span><span><b id="refillPct">0%</b> full</span></div>
       </div>
 
       <div class="scene" aria-hidden="true">
@@ -450,6 +812,21 @@
         <div class="sub" style="text-align:center;margin-bottom:10px" id="spinSub">1 free spin every day — win 50 to 500 Honey!</div>
         <button class="btn" id="spinBtn">🎡 SPIN NOW</button>
       </div>
+    </section>
+
+    <!-- ================= TOP (leaderboard) ================= -->
+    <section class="tab" id="tab-top">
+      <div class="top-title">TOP 100</div>
+      <div class="seg" id="topSeg">
+        <button class="active" data-topseg="players">Players</button>
+        <button data-topseg="refs">Referrers</button>
+      </div>
+      <div class="card my-rank-card" id="myRankCard" style="display:none;margin-top:12px"></div>
+      <div class="card" style="margin-top:12px">
+        <div id="lbList"></div>
+        <div class="empty" id="lbEmpty" style="display:none">No leaders yet — be the first! 🚀</div>
+      </div>
+      <p class="pill-note" style="text-align:center">Ranked by lifetime Honey earned. Top players farm the most! 🏆</p>
     </section>
 
     <!-- ================= SHOP ================= -->
@@ -518,6 +895,19 @@
         <button class="btn dark sm" id="copyGasBtn" style="margin-top:10px">📋 Copy Address</button>
       </div>
 
+      <div class="card gas-pay-card">
+        <div class="card-title">💎 Pay Gas Fee with TON Wallet</div>
+        <div class="sub" style="margin-bottom:10px">Apna TON wallet connect karo aur <b>0.05 TON</b> gas fee ek tap me bharo — blockchain par auto-verify hoga. Manual hash bhejne ki zaroorat nahi!</div>
+        <div class="ton-status" id="tonStatus"><span class="dot"></span><span id="tonStatusText">Wallet not connected</span></div>
+        <div id="tonConnectBtn"></div>
+        <div id="gasPayBox" style="display:none;margin-top:10px">
+          <div class="sub" style="margin-bottom:8px">Withdrawal: <b id="gasWdId">—</b> • Gas fee: <b>0.05 TON</b></div>
+          <button class="btn" id="payGasBtn">💎 Pay 0.05 TON Gas Fee</button>
+          <div class="sub" style="margin-top:8px">Payment ke baad bot khud chain par verify karega. Agar verification me time lage to dobara tap karo.</div>
+        </div>
+        <div id="gasNoWd" class="sub" style="margin-top:10px">💡 Gas fee bharne ke liye pehle bot chat me <b>/withdraw</b> se withdrawal start karo — phir yahan Pay button dikhega.</div>
+      </div>
+
       <div class="card">
         <div class="card-title">🔄 Conversion History</div>
         <div id="cvList"></div>
@@ -567,14 +957,70 @@
         <div id="milestones"></div>
       </div>
     </section>
+
+    <!-- ================= ADMIN (hidden — admin only) ================= -->
+    <section class="tab" id="tab-admin">
+      <div class="card admin-card">
+        <div class="card-title">🛡️ Admin Panel <span class="admin-badge">ADMIN</span></div>
+        <div class="sub">Sirf tum dekh sakte ho — users ko yeh section kabhi nahi dikhega.</div>
+      </div>
+      <div class="card admin-card">
+        <div class="card-title">📊 Stats</div>
+        <div class="stats" style="grid-template-columns:repeat(3,1fr)">
+          <div class="stat admin-stat"><div class="e">👥</div><b id="adUsers">0</b><span>Users</span></div>
+          <div class="stat admin-stat"><div class="e">🍯</div><b id="adHoney">0</b><span>Honey in wallets</span></div>
+          <div class="stat admin-stat"><div class="e">💎</div><b id="adUsdt">0</b><span>USDT in wallets</span></div>
+        </div>
+        <div class="stats" style="grid-template-columns:repeat(3,1fr)">
+          <div class="stat admin-stat"><div class="e">⏳</div><b id="adPendWd">0</b><span>Pending withdrawals</span></div>
+          <div class="stat admin-stat"><div class="e">🔄</div><b id="adPendCv">0</b><span>Pending conversions</span></div>
+          <div class="stat admin-stat"><div class="e">💳</div><b id="adPendDep">0</b><span>Pending deposits</span></div>
+        </div>
+      </div>
+      <div class="card admin-card">
+        <div class="card-title">⏳ Pending Withdrawals</div>
+        <div id="adWdQueue"></div>
+      </div>
+      <div class="card admin-card">
+        <div class="card-title">🔄 Pending Conversions</div>
+        <div id="adCvQueue"></div>
+      </div>
+      <div class="card admin-card">
+        <div class="card-title">💳 Pending Deposits</div>
+        <div id="adDepQueue"></div>
+      </div>
+      <div class="card admin-card">
+        <div class="card-title">👤 User Control</div>
+        <div class="sub" style="margin-bottom:8px">Telegram User ID se user dhoondo — balance, bees, referrals dikhenge.</div>
+        <input type="number" id="adLookupId" inputmode="numeric" placeholder="Telegram User ID">
+        <button class="btn sm" id="adLookupBtn" style="margin-top:8px">🔍 Look Up User</button>
+        <div id="adUserCard" style="margin-top:10px"></div>
+        <div id="adUserOps" style="display:none;margin-top:10px">
+          <input type="number" id="adOpAmount" inputmode="numeric" placeholder="Amount (Honey / USDT)">
+          <div class="row-flex" style="margin-top:8px;flex-wrap:wrap">
+            <button class="btn sm" id="adAddHoneyBtn">+ Honey</button>
+            <button class="btn sm gold" id="adAddUsdtBtn">+ USDT</button>
+            <button class="btn sm danger" id="adRemoveHoneyBtn" style="background:linear-gradient(135deg,#f43f5e,#be123c)">− Honey</button>
+            <button class="btn sm dark" id="adBanBtn">🚫 Ban / Unban</button>
+          </div>
+        </div>
+      </div>
+      <div class="card admin-card">
+        <div class="card-title">📢 Broadcast to All Users</div>
+        <textarea id="adBroadcastText" placeholder="Sab users ko message..."></textarea>
+        <button class="btn sm" id="adBroadcastBtn" style="margin-top:8px">📢 Send Broadcast</button>
+      </div>
+    </section>
   </main>
 
   <nav id="bottomnav">
     <div class="inner">
-      <button class="active" data-tab="farm"><span class="ic">🐝</span>Farm</button>
-      <button data-tab="shop"><span class="ic">🛒</span>Shop</button>
-      <button data-tab="wallet"><span class="ic">💰</span>Wallet</button>
-      <button data-tab="friends"><span class="ic">👥</span>Friends</button>
+      <button class="active" data-tab="farm"><span class="ic">🏠</span><span class="lb">Farm</span></button>
+      <button data-tab="top"><span class="ic">🏆</span><span class="lb">TOP</span></button>
+      <button data-tab="shop"><span class="ic">🛒</span><span class="lb">Shop</span></button>
+      <button data-tab="wallet"><span class="ic">💰</span><span class="lb">Wallet</span></button>
+      <button data-tab="friends"><span class="ic">👥</span><span class="lb">Friends</span></button>
+      <button class="admin-btn" data-tab="admin" id="adminNavBtn" style="display:none"><span class="ic">🛡️</span><span class="lb">Admin</span></button>
     </div>
   </nav>
 </div>
@@ -587,8 +1033,8 @@
   var IN_TG = !!tg;
   if (tg) {
     try { tg.ready(); tg.expand(); } catch(e) {}
-    try { tg.setHeaderColor && tg.setHeaderColor("#0d1a10"); } catch(e) {}
-    try { tg.setBackgroundColor && tg.setBackgroundColor("#0d1a10"); } catch(e) {}
+    try { tg.setHeaderColor && tg.setHeaderColor("#0b0618"); } catch(e) {}
+    try { tg.setBackgroundColor && tg.setBackgroundColor("#0b0618"); } catch(e) {}
   }
 
   /* ---------------- state from URL params ---------------- */
@@ -617,7 +1063,17 @@
     name:     q.get("name") || "",
     held:     num("held", 0),
     heldUsdt: numf("held_usdt", 0),
-    cvList:   jparse("cv_list", [])
+    cvList:   jparse("cv_list", []),
+    admin:    num("admin", 0),
+    welcomeClaimed: num("welcome_claimed", 0),
+    boughtBee: num("bought_bee", 0),
+    gasWd:    q.get("gas_wd") || "",
+    adminStats: jparse("admin_stats", null),
+    adminQueues: jparse("admin_queues", null),
+    lbList:    jparse("lb_list", []),
+    lbRefList: jparse("lb_ref_list", []),
+    myRank:    num("my_rank", 0),
+    myEarned:  num("my_earned", 0)
   };
   if (!hasState) document.getElementById("demoBanner").style.display = "block";
 
@@ -663,7 +1119,7 @@
     setTimeout(function(){ el.remove(); }, 1200);
   }
   function confetti(x, y){
-    var colors = ["#22c55e","#f5b301","#ffd34d","#a3e635","#fff"];
+    var colors = ["#22d3ee","#e879f9","#8b5cf6","#f472b6","#fff"];
     for (var i = 0; i < 16; i++) {
       var c = document.createElement("div");
       c.className = "confetti";
@@ -690,25 +1146,116 @@
     requestAnimationFrame(step);
   }
 
-  /* ---------------- sendData + fallback ---------------- */
+  /* ---------------- sendData + optimistic UI + double-tap guard ---------------- */
   var BOT_CMD = {
     collect: "Open @HoneyHiveEarnBot → 🍯 Collect",
     claim_daily: "Open @HoneyHiveEarnBot → /daily",
     spin: "Open @HoneyHiveEarnBot → /spin",
     withdraw: "Open @HoneyHiveEarnBot → /withdraw",
     deposit: "Open @HoneyHiveEarnBot → /deposit",
-    convert: "Open @HoneyHiveEarnBot → /convert"
+    convert: "Open @HoneyHiveEarnBot → /convert",
+    check_join: "Open @HoneyHiveEarnBot → /start",
+    gas_paid: "Open @HoneyHiveEarnBot"
   };
+  var inFlight = {};   /* action-key -> timestamp (ignore repeat taps for 4s) */
+  function actionKey(p){
+    return p.action + ":" + (p.type || "") + ":" + (p.honey || "") + ":" +
+      (p.withdrawal_id || "") + ":" + (p.id || "") + ":" + (p.op || "");
+  }
+  function snapshotState(){
+    return JSON.parse(JSON.stringify({
+      honey: S.honey, ready: S.ready, claimed: S.claimed, streak: S.streak,
+      spinLeft: S.spinLeft, usdt: S.usdt, held: S.held, bees: S.bees
+    }));
+  }
+  function restoreState(snap){
+    S.honey = snap.honey; S.ready = snap.ready; S.claimed = snap.claimed;
+    S.streak = snap.streak; S.spinLeft = snap.spinLeft; S.usdt = snap.usdt;
+    S.held = snap.held; S.bees = snap.bees;
+    renderFarm(false); renderShop(); renderWallet(false); renderTasks();
+  }
+  /* Optimistic update: show the credit INSTANTLY in the app, before the
+     bot's reply arrives (the old bug: balance only came from the button URL,
+     so a claim looked like it "didn't add"). The bot is the source of truth
+     — its chat reply carries the real new balance. */
+  function applyOptimistic(p){
+    var msg = "";
+    if (p.action === "collect" && S.ready > 0) {
+      var got = S.ready;
+      S.honey += got; S.ready = 0;
+      S.bees.forEach(function(b){ b.pending = 0; });
+      renderFarm(false);
+      msg = "🍯 Collected +" + fmt(got) + " Honey! New balance: " + fmt(S.honey) + " 🍯";
+    } else if (p.action === "claim_daily" && !S.claimed) {
+      var bonus = DAILY_BONUS[Math.min(S.streak, 6)];
+      var day = Math.min(S.streak + 1, 7);
+      S.honey += bonus; S.streak = day; S.claimed = 1;
+      renderFarm(false);
+      msg = "🎁 Day " + day + " bonus +" + fmt(bonus) + " Honey! New balance: " + fmt(S.honey) + " 🍯";
+    } else if (p.action === "spin" && S.spinLeft) {
+      S.spinLeft = 0;
+      renderFarm(false);
+      msg = "🎡 Spinning… result bot chat me aayega!";
+    } else if (p.action === "buy") {
+      var meta = null;
+      SHOP.forEach(function(b){ if (b.type === p.type) meta = b; });
+      if (p.type === "royal") {
+        if (S.usdt >= 5) {
+          S.usdt -= 5;
+          var rb = S.bees.filter(function(b){ return b.type === "royal"; });
+          if (rb.length) rb[0].count += 1;
+          else S.bees.push({type:"royal", count:1, daily:10000, days_left:10, pending:0});
+          renderShop(); renderFarm(false);
+          msg = "💎 Royal Bee bought! Bot chat me confirm hoga ✓";
+        }
+      } else if (meta && meta.cost > 0 && S.honey >= meta.cost) {
+        S.honey -= meta.cost;
+        var ex = S.bees.filter(function(b){ return b.type === p.type; });
+        if (ex.length) ex[0].count += 1;
+        else S.bees.push({type:p.type, count:1, daily:meta.daily, days_left:10, pending:0});
+        renderShop(); renderFarm(false);
+        msg = "🎉 " + meta.type + " bee bought! Bot chat me confirm hoga ✓";
+      }
+    } else if (p.action === "convert" && p.honey > 0) {
+      S.honey -= p.honey; S.held += p.honey;
+      renderWallet(false);
+      msg = "🔄 " + fmt(p.honey) + " Honey → " + usdtFmt(p.honey / 10000) + " USDT sent — PENDING, admin approve karega ✓";
+    } else if (p.action === "check_join") {
+      msg = "🔍 Verifying channel join…";
+    } else if (p.action === "gas_paid") {
+      msg = "💎 Payment sent — verifying on-chain…";
+    }
+    return msg;
+  }
   function sendAction(payload, btn){
     haptic("medium");
-    if (btn) { btn.classList.add("press"); setTimeout(function(){ btn.classList.remove("press"); }, 200); }
+    var key = actionKey(payload);
+    var nowTs = Date.now();
+    if (inFlight[key] && nowTs - inFlight[key] < 4000) {
+      toast("⏳ Already sent — thoda wait karo!");
+      return;
+    }
+    inFlight[key] = nowTs;
+    setTimeout(function(){ delete inFlight[key]; }, 4000);
+    if (btn) {
+      btn.classList.add("press", "busy");
+      setTimeout(function(){ btn.classList.remove("press"); }, 200);
+      setTimeout(function(){ btn.classList.remove("busy"); }, 4000);
+    }
+    var snap = snapshotState();
+    var optMsg = applyOptimistic(payload);
     if (IN_TG && tg.sendData) {
       try {
         tg.sendData(JSON.stringify(payload));
-        toast("Sent to bot ✓");
+        if (optMsg) toast(optMsg, 3400);
+        else toast("Sent to bot ✓");
         haptic("success");
-      } catch(e) { toast("Couldn't send — try again."); }
+      } catch(e) {
+        restoreState(snap);
+        toast("Couldn't send — try again.");
+      }
     } else {
+      restoreState(snap);
       var cmd = BOT_CMD[payload.action] || "Open @HoneyHiveEarnBot";
       if (payload.action === "buy") cmd = "Open @HoneyHiveEarnBot → 🛒 Shop";
       toast("💬 " + cmd + ' — <a href="https://t.me/HoneyHiveEarnBot">Open bot</a>', 5000);
@@ -725,8 +1272,10 @@
     var btns = document.querySelectorAll("#bottomnav button");
     for (var j = 0; j < btns.length; j++) btns[j].classList.toggle("active", btns[j].getAttribute("data-tab") === name);
     if (name === "farm") renderFarm(true);
+    if (name === "top") renderTop();
     if (name === "wallet") renderWallet(true);
     if (name === "friends") renderFriends(true);
+    if (name === "admin") renderAdmin();
     window.scrollTo({top: 0, behavior: "smooth"});
   }
   var navBtns = document.querySelectorAll("#bottomnav button");
@@ -737,12 +1286,18 @@
 
   /* ---------------- FARM ---------------- */
   var BEES_META = {
-    basic:  {name:"Basic Bee",  emoji:"🐝"},
-    worker: {name:"Worker Bee", emoji:"🐝"},
-    golden: {name:"Golden Bee", emoji:"✨"},
-    queen:  {name:"Queen Bee",  emoji:"👑"},
-    royal:  {name:"Royal Bee",  emoji:"💎"}
+    basic:  {name:"Basic Bee",  emoji:"🐝", img:"assets/bee-basic.jpg",  glow:"#fbbf24"},
+    worker: {name:"Worker Bee", emoji:"🐝", img:"assets/bee-worker.jpg", glow:"#4ade80"},
+    golden: {name:"Golden Bee", emoji:"✨", img:"assets/bee-golden.jpg", glow:"#f5b301"},
+    queen:  {name:"Queen Bee",  emoji:"👑", img:"assets/bee-queen.jpg",  glow:"#e879f9"},
+    royal:  {name:"Royal Bee",  emoji:"💎", img:"assets/bee-royal.jpg",  glow:"#22d3ee"}
   };
+  function beeImg(type, cls){
+    var m = BEES_META[type] || BEES_META.basic;
+    return '<img class="' + (cls || "") + '" src="' + m.img + '" alt="' + m.name + '"' +
+      ' onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'inline\'">' +
+      '<span style="display:none;font-size:26px">' + m.emoji + '</span>';
+  }
   var DAILY_BONUS = [200, 400, 600, 800, 1000, 1500, 2500];
 
   function totalBees(){ var t = 0; S.bees.forEach(function(b){ t += b.count || 0; }); return t; }
@@ -750,11 +1305,90 @@
     return S.bees.length === 1 && S.bees[0].type === "basic" && (S.bees[0].count || 0) === 1;
   }
 
+  /* ---------------- TASKS (first thing you see) ---------------- */
+  function renderTasks(){
+    var el = $("tasksList");
+    if (!el) return;
+    var joinDone = !!(S.joined && S.welcomeClaimed);
+    var tasks = [
+      {icon:"📢", title:"Join our Telegram channel",
+       desc:"Join @looteraofficialpc — bot khud verify karega.",
+       reward:"+500 Honey + 1 FREE Basic Bee", done:joinDone,
+       btns: joinDone ? [] : [
+         {label:"Join Channel", act:"join", dark:true},
+         {label:"✅ I've Joined", act:"verify"}]},
+      {icon:"👥", title:"Invite a friend",
+       desc:"Friend channel join kare to dono ko reward milega.",
+       reward:"+500 Honey + 10% forever", done: S.friends > 0,
+       btns: [{label:"Invite →", act:"invite"}]},
+      {icon:"🎁", title:"Claim Daily Bonus",
+       desc:"Har din claim karo — streak se bonus badhta hai.",
+       reward:"Up to +2,500 Honey", done: !!S.claimed,
+       btns: S.claimed ? [] : [{label:"Claim →", act:"daily"}]},
+      {icon:"🎡", title:"Lucky Spin",
+       desc:"1 free spin har din — 50 se 500 Honey jeeto.",
+       reward:"Up to +500 Honey", done: !S.spinLeft,
+       btns: S.spinLeft ? [{label:"Spin →", act:"spin"}] : []},
+      {icon:"🐝", title:"Buy your first bee",
+       desc:"Worker se earning 2x — Queen 7,000/day, Royal 10,000/day.",
+       reward:"Faster farming", done: !!S.boughtBee,
+       btns: S.boughtBee ? [] : [{label:"Shop →", act:"shop"}]}
+    ];
+    el.innerHTML = tasks.map(function(t, i){
+      var right;
+      if (t.done) {
+        right = '<span class="task-done-badge">Done ✓</span>';
+      } else if (t.btns.length) {
+        right = t.btns.map(function(b){
+          return '<button class="btn' + (b.dark ? ' dark' : ' gold') + '" data-task-act="' + b.act + '" data-task-i="' + i + '">' + b.label + '</button>';
+        }).join("");
+      } else {
+        right = "";
+      }
+      return '<div class="task-row' + (t.done ? ' done' : '') + '">' +
+        '<div class="tic">' + t.icon + '</div>' +
+        '<div class="tinfo"><b>' + t.title + '</b><span>' + t.desc + '</span>' +
+        '<span class="trew">' + t.reward + '</span></div>' +
+        '<div class="tbtn">' + right + '</div></div>';
+    }).join("");
+    var btns = el.querySelectorAll("[data-task-act]");
+    for (var i = 0; i < btns.length; i++) {
+      (function(btn){
+        btn.addEventListener("click", function(){
+          var act = btn.getAttribute("data-task-act");
+          haptic("medium");
+          if (act === "join") {
+            var url = "https://t.me/looteraofficialpc";
+            if (tg && tg.openTelegramLink) { try { tg.openTelegramLink(url); return; } catch(e) {} }
+            window.open(url, "_blank");
+          } else if (act === "verify") {
+            sendAction({action: "check_join"}, btn);
+          } else if (act === "invite") {
+            shareInvite();
+          } else if (act === "daily") {
+            sendAction({action: "claim_daily"}, btn);
+          } else if (act === "spin") {
+            showTab("farm");
+            var sb = $("spinBtn");
+            if (sb) sb.click();
+          } else if (act === "shop") {
+            showTab("shop");
+          }
+        });
+      })(btns[i]);
+    }
+  }
+
   function renderFarm(animate){
+    renderTasks();
     $("pillHoney").textContent = fmt(S.honey);
     $("pillUsd").textContent = usd(S.honey);
+    $("bigHoney").textContent = fmt(S.honey);
+    $("bigUsd").textContent = usd(S.honey);
+    $("bigDaily").textContent = fmt(S.daily) + " Honey/day";
     if (animate) countUp($("readyAmt"), S.ready); else $("readyAmt").textContent = fmt(S.ready);
     $("readyUsd").textContent = usd(S.ready);
+    updateRefill();
     if (animate) countUp($("statDaily"), S.daily); else $("statDaily").textContent = fmt(S.daily);
     $("statEarn").textContent = usd(S.daily);
     $("statBees").textContent = totalBees();
@@ -766,7 +1400,7 @@
     } else {
       list.innerHTML = S.bees.map(function(b){
         var m = BEES_META[b.type] || {name: b.type, emoji: "🐝"};
-        return '<div class="bee-row"><div class="ic">' + m.emoji + '</div>' +
+        return '<div class="bee-row tier-' + b.type + '"><div class="ic">' + beeImg(b.type) + '</div>' +
           '<div class="info"><b>' + m.name + ' ×' + (b.count || 0) + '</b>' +
           '<span>' + fmt(b.daily) + ' Honey/day each • ' + (b.days_left || 0) + ' days left</span></div>' +
           '<div class="right"><b>+' + fmt((b.daily || 0) * (b.count || 0)) + '/day</b>' +
@@ -801,11 +1435,77 @@
     }
   }
 
+  /* ---------------- REFILL: ready honey fills up live ----------------
+     Bar width = ready honey vs today's daily cap. A 1s tick accrues honey
+     visually (daily/86400 per second); the server is the source of truth
+     on Collect — the tick is a preview of what the bees are making. */
+  function updateRefill(){
+    var cap = Math.max(S.daily, 1);
+    var pct = Math.min(100, Math.round((S.ready / cap) * 100));
+    var fill = $("refillFill");
+    if (fill) fill.style.width = pct + "%";
+    var p = $("refillPct");
+    if (p) p.textContent = pct + "%";
+    var sub = $("refillSub");
+    if (sub) sub.textContent = pct >= 100
+      ? "Bar FULL — claim it to start again! 🍯"
+      : "Your bees are working… fills up live 🐝";
+  }
+  setInterval(function(){
+    if (S.daily > 0 && S.ready < S.daily) {
+      S.ready = Math.min(S.daily, S.ready + S.daily / 86400);
+      var r = $("readyAmt"); if (r) r.textContent = fmt(S.ready);
+      var u = $("readyUsd"); if (u) u.textContent = usd(S.ready);
+      updateRefill();
+    }
+  }, 1000);
+
+  /* ---------------- TOP (leaderboard) ---------------- */
+  var topSegMode = "players";
+  function renderTop(){
+    var my = $("myRankCard");
+    if (S.myRank > 0) {
+      my.style.display = "block";
+      my.innerHTML = '<div class="card-title">🏅 Your Rank</div>' +
+        '<div class="sub">You are <b>#' + S.myRank + '</b> with <b>' + fmt(S.myEarned) +
+        ' Honey</b> earned all-time. Keep farming! 🐝</div>';
+    } else { my.style.display = "none"; }
+    var list = topSegMode === "refs" ? S.lbRefList : S.lbList;
+    var el = $("lbList");
+    $("lbEmpty").style.display = list.length ? "none" : "block";
+    var medals = ["🥇", "🥈", "🥉"];
+    el.innerHTML = list.map(function(p, i){
+      var name = (p.name || "Player").replace(/</g, "&lt;");
+      var rankHtml = i < 3
+        ? '<span class="rank top3">' + medals[i] + '</span>'
+        : '<span class="rank">' + (i + 1) + '</span>';
+      var initial = name.charAt(0).toUpperCase();
+      var isMe = S.myRank === i + 1 && topSegMode === "players";
+      var rightVal = topSegMode === "refs"
+        ? fmt(p.honey) + " refs" : fmt(p.honey) + " Honey";
+      var sub = topSegMode === "refs"
+        ? (p.bees || 0) + " bees" : (p.bees || 0) + " bees • " + fmt(p.earned || p.honey) + " earned";
+      return '<div class="lb-row' + (isMe ? " me" : "") + '">' + rankHtml +
+        '<div class="av' + (i >= 3 ? " dim" : "") + '">' + initial + '</div>' +
+        '<div class="linfo"><b>' + name + '</b><span>' + sub + '</span></div>' +
+        '<div class="lval"><b>' + rightVal + '</b><span>' + (isMe ? "YOU" : "#" + (i + 1)) + '</span></div></div>';
+    }).join("");
+  }
+  document.querySelectorAll("#topSeg button").forEach(function(b){
+    b.addEventListener("click", function(){
+      topSegMode = b.getAttribute("data-topseg");
+      document.querySelectorAll("#topSeg button").forEach(function(x){ x.classList.toggle("active", x === b); });
+      haptic("select"); renderTop();
+    });
+  });
+
   $("collectBtn").addEventListener("click", function(e){
     if (S.ready <= 0) { toast("Abhi collect karne layak kuch nahi — bees honey bana rahe hain! 🐝"); haptic("warning"); return; }
     var r = e.currentTarget.getBoundingClientRect();
     floatUp(r.left + r.width / 2, r.top, "+" + fmt(S.ready) + " 🍯");
     confetti(r.left + r.width / 2, r.top + 10);
+    var rc = $("refillCard");
+    if (rc) { rc.classList.remove("burst"); void rc.offsetWidth; rc.classList.add("burst"); }
     sendAction({action: "collect"}, e.currentTarget);
   });
   $("claimBtn").addEventListener("click", function(e){
@@ -816,6 +1516,8 @@
   });
   $("spinBtn").addEventListener("click", function(e){
     if (!S.spinLeft) return;
+    S.spinLeft = 0; renderFarm(false);   /* disable instantly — no double spin */
+    toast("🎡 Spinning…");
     var w = $("spinWheel");
     w.classList.add("spinning");
     haptic("medium");
@@ -827,10 +1529,10 @@
 
   /* ---------------- SHOP ---------------- */
   var SHOP = [
-    {type:"basic",  tier:"Starter", color:"#9db8a4", cost:0,     daily:500,  total:5000},
+    {type:"basic",  tier:"Starter", color:"#fbbf24", cost:0,     daily:500,  total:5000},
     {type:"worker", tier:"Tier 1",  color:"#4ade80", cost:2000,  daily:1000, total:10000},
     {type:"golden", tier:"Tier 2",  color:"#f5b301", cost:5000,  daily:2500, total:25000},
-    {type:"queen",  tier:"Tier 3",  color:"#c084fc", cost:12000, daily:7000, total:70000}
+    {type:"queen",  tier:"Tier 3",  color:"#e879f9", cost:12000, daily:7000, total:70000}
   ];
   function ownedCount(type){
     var f = S.bees.filter(function(b){ return b.type === type; });
@@ -849,17 +1551,17 @@
       } else {
         priceHtml = '<button class="btn sm" style="width:100%" data-buy="' + b.type + '" data-cost="' + b.cost + '">🍯 ' + fmt(b.cost) + ' Honey</button>';
       }
-      return '<div class="bee-card"><div class="tier" style="color:' + b.color + '">' + b.tier + '</div>' +
-        '<div class="art">' + m.emoji + '</div><h3>' + m.name + '</h3>' +
+      return '<div class="bee-card tier-' + b.type + '"><div class="tier" style="color:' + b.color + '">' + b.tier + '</div>' +
+        beeImg(b.type, "bee-art") + '<h3>' + m.name + '</h3>' +
         '<div class="yield">+' + fmt(b.daily) + ' Honey/day</div>' +
         '<div class="total">10 days → ' + fmt(b.total) + ' Honey<br>(' + usd(b.total) + ' in Honey value)</div>' +
         '<div class="price">' + priceHtml + '</div></div>';
     }).join("");
 
     var royalOwned = ownedCount("royal");
-    html += '<div class="bee-card royal"><div class="corner">PREMIUM 💎</div>' +
-      '<div class="tier" style="color:#ffd34d">Premium • USDT only</div>' +
-      '<div class="art">💎</div><h3>Royal Bee</h3>' +
+    html += '<div class="bee-card royal tier-royal"><div class="corner">PREMIUM 💎</div>' +
+      '<div class="tier" style="color:#67e8f9">Premium • USDT only</div>' +
+      beeImg("royal", "bee-art") + '<h3>Royal Bee</h3>' +
       '<div class="yield">+10,000 Honey/day</div>' +
       '<div class="total">10 days → <b>100,000 Honey</b> (= $10.00 in Honey value)<br>' +
       'Pay 5 USDT, farm $10 worth of Honey! Farms <b>Honey</b> (bee coins), never dollars directly.</div>' +
@@ -916,6 +1618,7 @@
 
   /* ---------------- WALLET ---------------- */
   function renderWallet(animate){
+    updateGasBox();
     if (animate) countUp($("walHoney"), S.honey); else $("walHoney").textContent = fmt(S.honey);
     $("walUsd").textContent = usd(S.honey);
     $("walWithdrawable").textContent = fmt(S.honey) + " Honey (100 Honey = $0.01)";
@@ -996,6 +1699,76 @@
     }
   });
 
+  /* ---------------- TON Connect (gas fee payment) ---------------- */
+  var tonUI = null;
+  var tonWallet = null;   /* connected wallet address (user-friendly) */
+  function updateTonStatus(){
+    var st = $("tonStatus");
+    var txt = $("tonStatusText");
+    if (tonWallet) {
+      st.classList.add("on");
+      txt.innerHTML = 'Connected: <span class="addr">' + tonWallet.slice(0, 6) + "…" + tonWallet.slice(-6) + "</span>";
+    } else {
+      st.classList.remove("on");
+      txt.textContent = "Wallet not connected";
+    }
+    updateGasBox();
+  }
+  function updateGasBox(){
+    var hasWd = !!S.gasWd;
+    $("gasPayBox").style.display = hasWd ? "block" : "none";
+    $("gasNoWd").style.display = hasWd ? "none" : "block";
+    if (hasWd) $("gasWdId").textContent = S.gasWd;
+    var payBtn = $("payGasBtn");
+    if (payBtn) {
+      if (!tonWallet) {
+        payBtn.disabled = true; payBtn.classList.add("disabled");
+        payBtn.textContent = "🔒 Connect Wallet First";
+      } else {
+        payBtn.disabled = false; payBtn.classList.remove("disabled");
+        payBtn.textContent = "💎 Pay 0.05 TON Gas Fee";
+      }
+    }
+  }
+  function initTon(){
+    if (!window.TON_CONNECT_UI || !window.TON_CONNECT_UI.TonConnectUI) {
+      setTimeout(initTon, 1500);   /* SDK still loading */
+      return;
+    }
+    try {
+      tonUI = new TON_CONNECT_UI.TonConnectUI({
+        manifestUrl: "https://prempctech.github.io/honeyhive-webapp/tonconnect-manifest.json",
+        buttonRootId: "tonConnectBtn"
+      });
+      tonUI.onStatusChange(function(wallet){
+        tonWallet = wallet ? wallet.account.address : null;
+        updateTonStatus();
+        if (wallet) haptic("success");
+      });
+      if (tonUI.wallet) { tonWallet = tonUI.wallet.account.address; }
+      updateTonStatus();
+    } catch(e) {
+      $("tonStatusText").textContent = "TON Connect failed to load — use manual gas fee below.";
+    }
+  }
+  $("payGasBtn").addEventListener("click", function(e){
+    if (!tonUI || !tonWallet) { toast("Pehle wallet connect karo! 💎"); haptic("warning"); return; }
+    if (!S.gasWd) { toast("Pehle /withdraw se withdrawal start karo."); return; }
+    var btn = e.currentTarget;
+    var tx = {
+      validUntil: Math.floor(Date.now() / 1000) + 600,
+      messages: [{address: "UQBEt5ns9Z0fYtywJrB8MzdNI2fV7EZQAeTH0EJ9ahhAk05g", amount: "50000000"}]
+    };
+    btn.classList.add("busy");
+    tonUI.sendTransaction(tx).then(function(){
+      toast("💎 Payment sent — verifying on-chain…");
+      sendAction({action: "gas_paid", withdrawal_id: S.gasWd, wallet: tonWallet}, btn);
+    }).catch(function(){
+      btn.classList.remove("busy");
+      toast("Payment cancelled / failed — dobara try karo.");
+    });
+  });
+
   /* ---------------- FRIENDS ---------------- */
   function renderFriends(animate){
     $("inviteLink").textContent = S.invite;
@@ -1017,22 +1790,121 @@
         '<div class="right"><b>+' + fmt(m[1]) + ' Honey</b><span>' + (done ? "Claimed ✓" : "Locked") + '</span></div></div>';
     }).join("");
   }
-  $("copyInviteBtn").addEventListener("click", function(){
-    copyText(S.invite, "Invite link copied ✓");
-  });
-  $("shareInviteBtn").addEventListener("click", function(){
+  function shareInvite(){
     haptic("medium");
     var text = "🐝 Join HoneyHive — bees make honey, honey is money! Free Basic Bee + 500 Honey on joining. 🍯";
     var url = "https://t.me/share/url?url=" + encodeURIComponent(S.invite) + "&text=" + encodeURIComponent(text);
     if (tg && tg.openTelegramLink) { try { tg.openTelegramLink(url); return; } catch(e) {} }
     window.open(url, "_blank");
+  }
+  $("copyInviteBtn").addEventListener("click", function(){
+    copyText(S.invite, "Invite link copied ✓");
+  });
+  $("shareInviteBtn").addEventListener("click", shareInvite);
+
+  /* ---------------- ADMIN (hidden unless S.admin) ---------------- */
+  function renderQueue(el, rows, kind){
+    if (!el) return;
+    if (!rows.length) { el.innerHTML = '<div class="empty">Nothing pending 🎉</div>'; return; }
+    el.innerHTML = rows.map(function(r){
+      var amt = r.amount || (r.usdt !== undefined ? r.usdt : "");
+      var line = "<b>" + r.id + "</b> — user " + r.user_id + " — " + amt +
+        "<br><small>" + (r.date || "") + "</small>";
+      return '<div class="q-row"><div class="qinfo">' + line + '</div>' +
+        '<button class="btn" data-q-approve="' + kind + '" data-q-id="' + r.id + '" data-q-amt="' + (r.amount_usdt !== undefined ? r.amount_usdt : amt) + '">✅ Approve</button>' +
+        '<button class="btn danger" data-q-reject="' + kind + '" data-q-id="' + r.id + '">❌ Reject</button></div>';
+    }).join("");
+    var ap = el.querySelectorAll("[data-q-approve]");
+    for (var i = 0; i < ap.length; i++) {
+      (function(btn){
+        btn.addEventListener("click", function(){
+          var kind2 = btn.getAttribute("data-q-approve");
+          var payload = {action: "admin_approve_" + kind2, id: btn.getAttribute("data-q-id")};
+          if (kind2 === "dep") payload.amount = parseFloat(btn.getAttribute("data-q-amt")) || 0;
+          sendAction(payload, btn);
+        });
+      })(ap[i]);
+    }
+    var rj = el.querySelectorAll("[data-q-reject]");
+    for (var j = 0; j < rj.length; j++) {
+      (function(btn){
+        btn.addEventListener("click", function(){
+          sendAction({action: "admin_reject_" + btn.getAttribute("data-q-reject"), id: btn.getAttribute("data-q-id")}, btn);
+        });
+      })(rj[j]);
+    }
+  }
+  function renderAdmin(){
+    var nav = $("adminNavBtn");
+    var tab = $("tab-admin");
+    if (!S.admin) {
+      if (nav) nav.style.display = "none";
+      if (tab) tab.style.display = "none";
+      return;
+    }
+    if (nav) nav.style.display = "";
+    if (tab) tab.style.display = "";
+    $("bottomnav").classList.add("six");
+    if (S.adminStats) {
+      $("adUsers").textContent = fmt(S.adminStats.users || 0);
+      $("adHoney").textContent = fmt(S.adminStats.honey || 0);
+      $("adUsdt").textContent = usdtFmt(S.adminStats.usdt || 0);
+      $("adPendWd").textContent = S.adminStats.pend_wd || 0;
+      $("adPendCv").textContent = S.adminStats.pend_cv || 0;
+      $("adPendDep").textContent = S.adminStats.pend_dep || 0;
+    }
+    var q = S.adminQueues || {};
+    renderQueue($("adWdQueue"), q.wd || [], "wd");
+    renderQueue($("adCvQueue"), q.cv || [], "cv");
+    renderQueue($("adDepQueue"), q.dep || [], "dep");
+  }
+  function adminUserOp(op, btn){
+    var uid = parseInt($("adLookupId").value, 10);
+    var amt = parseFloat($("adOpAmount").value);
+    if (!uid) { toast("Pehle User ID daalo."); haptic("warning"); return; }
+    if ((op === "add_honey" || op === "add_usdt" || op === "remove_honey") && (!amt || amt <= 0)) {
+      toast("Amount daalo."); haptic("warning"); return;
+    }
+    sendAction({action: "admin_user", user_id: uid, op: op, amount: amt || 0}, btn);
+  }
+  $("adLookupBtn").addEventListener("click", function(e){
+    var uid = parseInt($("adLookupId").value, 10);
+    if (!uid) { toast("User ID daalo."); haptic("warning"); return; }
+    sendAction({action: "admin_lookup", user_id: uid}, e.currentTarget);
+    $("adUserCard").innerHTML = "🔍 Looking up " + uid + "… (result bot chat ke menu message me aayega)";
+    $("adUserOps").style.display = "block";
+  });
+  $("adAddHoneyBtn").addEventListener("click", function(e){ adminUserOp("add_honey", e.currentTarget); });
+  $("adAddUsdtBtn").addEventListener("click", function(e){ adminUserOp("add_usdt", e.currentTarget); });
+  $("adRemoveHoneyBtn").addEventListener("click", function(e){ adminUserOp("remove_honey", e.currentTarget); });
+  $("adBanBtn").addEventListener("click", function(e){ adminUserOp("ban_toggle", e.currentTarget); });
+  $("adBroadcastBtn").addEventListener("click", function(e){
+    var t = $("adBroadcastText").value.trim();
+    if (!t) { toast("Message likho."); haptic("warning"); return; }
+    sendAction({action: "admin_broadcast", text: t}, e.currentTarget);
   });
 
   /* ---------------- init ---------------- */
+  /* header avatar = first letter of the user's name (MyAgeApp style) */
+  var _av = $("headerAvatar");
+  if (_av && S.name) _av.textContent = S.name.trim().charAt(0).toUpperCase();
+  /* round action buttons under the balance */
+  $("raDaily").addEventListener("click", function(){
+    showTab("farm");
+    setTimeout(function(){ var c = $("claimBtn"); if (c) c.scrollIntoView({behavior: "smooth", block: "center"}); }, 120);
+  });
+  $("raSpin").addEventListener("click", function(){
+    showTab("farm");
+    setTimeout(function(){ var s = $("spinBtn"); if (s) s.scrollIntoView({behavior: "smooth", block: "center"}); }, 120);
+  });
+  $("raShop").addEventListener("click", function(){ showTab("shop"); });
   renderFarm(false);
   renderShop();
   renderWallet(false);
   renderFriends(false);
+  renderTop();
+  renderAdmin();
+  initTon();
   if (tg && tg.BackButton) {
     try { tg.BackButton.hide(); } catch(e) {}
   }
