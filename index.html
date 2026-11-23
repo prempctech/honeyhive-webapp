@@ -49,14 +49,6 @@
   .pill:active{transform:scale(.94)}
   .pill small{color:var(--gold2);font-weight:700}
 
-  /* ---------- demo banner ---------- */
-  #demoBanner{
-    display:none;margin:4px 0 12px;padding:10px 12px;border-radius:14px;
-    background:linear-gradient(135deg,rgba(245,179,1,.18),rgba(34,197,94,.14));
-    border:1px solid rgba(245,179,1,.4);font-size:13px;line-height:1.45;
-  }
-  #demoBanner a{color:var(--gold2);font-weight:800;text-decoration:none}
-
   /* ---------- tabs ---------- */
   .tab{display:none}
   .tab.active{display:block;animation:tabIn .28s ease}
@@ -426,10 +418,6 @@
     background:#1c1c1e;border:1px solid rgba(255,255,255,.1);box-shadow:none;
   }
   .pill small{color:var(--gold2)}
-  #demoBanner{
-    background:#1c1c1e;border:1px solid rgba(255,197,49,.4);
-  }
-  #demoBanner a{color:var(--gold2)}
   .card{
     background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow);
     backdrop-filter:none;-webkit-backdrop-filter:none;
@@ -716,6 +704,90 @@
   .q-row .qinfo small{color:var(--muted);display:block;font-size:11px}
   .q-row .btn{padding:8px 11px;font-size:12px;width:auto;border-radius:10px}
   .q-row .btn.danger{background:linear-gradient(135deg,#f43f5e,#be123c);box-shadow:0 6px 16px rgba(244,63,94,.4)}
+
+  /* ================= v4 — exact MyAgeApp copy, airy =================
+     Flat pure-black base, dark grey cards, big bold white headings, small
+     caps grey section labels, reference-blue pill buttons, yellow/gold only
+     for numbers and highlights. No gradients on text, no neon glows. */
+  body{background:#000000;background-image:none}
+  #app{padding:0 16px 128px}
+  main{padding-bottom:0}
+
+  /* big page titles, like the reference (Friends / TOP 100 / Pass) */
+  .page-title{font-size:34px;font-weight:900;color:#fff;margin:12px 2px 18px;letter-spacing:-.5px}
+  .top-title{font-size:40px;margin:12px 2px 14px}
+
+  /* section labels: small caps grey, exactly like the reference */
+  .card-title{font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#8e8e93;margin-bottom:12px}
+
+  /* airy cards: one section at a time, generous breathing room */
+  .card{margin-bottom:20px;border-radius:24px;padding:18px}
+  .big-balance{padding:10px 6px 4px}
+  .big-balance .bal-num{font-size:48px}
+  .ready-card{margin-bottom:20px}
+  #collectBtn{margin-bottom:10px}
+  .stats{margin-bottom:20px}
+  .pill-note{margin:0 0 20px}
+  .nudge{margin-bottom:20px;background:#1c1c1e;border:1px solid rgba(255,197,49,.35)}
+  .seg{margin-bottom:20px}
+
+  /* reference-blue pill buttons for actions; gold only for commerce */
+  .btn{background:#2f7cf6;color:#fff;box-shadow:0 8px 20px rgba(47,124,246,.35);border-radius:16px}
+  .btn:active{box-shadow:0 4px 12px rgba(47,124,246,.3)}
+  .btn.gold{background:linear-gradient(135deg,#ffe27a,#ffc531);color:#1a1a1a;box-shadow:0 8px 20px rgba(245,166,35,.3)}
+  .btn.dark{background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,.12);box-shadow:none}
+  .btn.armed{background:linear-gradient(135deg,#ff453a,#ff9f0a);color:#fff;box-shadow:0 8px 20px rgba(255,69,58,.35)}
+
+  /* no neon glows anywhere */
+  .tasks-card,.balance-card,.banner,.my-rank-card,.gas-pay-card,.ready-card{box-shadow:0 8px 24px rgba(0,0,0,.55)}
+  .bee-card.tier-basic,.bee-card.tier-worker,.bee-card.tier-golden,.bee-card.tier-queen,.bee-card.tier-royal{box-shadow:none}
+  .bee-card.royal{border:2px solid #22d3ee;background:#1c1c1e}
+  .avatar{box-shadow:none}
+  .pill{box-shadow:none}
+  .day.lit{box-shadow:none}
+  .spin-wheel{filter:none}
+
+  /* plain numbers — no gradient text */
+  .stat b{background:none;-webkit-background-clip:initial;background-clip:initial;color:#fff}
+  .grad-text{background:none;-webkit-background-clip:initial;background-clip:initial;color:#fff}
+  .admin-stat b{background:none;-webkit-background-clip:initial;background-clip:initial;color:#fda4af}
+
+  /* ---------- hero: big hive circle first, bees flying around it ---------- */
+  .hero{position:relative;width:230px;height:230px;margin:22px auto 14px}
+  .hero-circle{
+    width:230px;height:230px;border-radius:50%;
+    background:url('assets/farm-bg.jpg') 72% 18%/cover no-repeat;
+    border:3px solid #ffc531;
+    box-shadow:0 0 0 6px rgba(255,197,49,.12),0 14px 34px rgba(0,0,0,.6);
+  }
+  .hero-bee{position:absolute;left:50%;top:50%;margin:-14px 0 0 -14px;font-size:27px;z-index:2;filter:drop-shadow(0 2px 4px rgba(0,0,0,.55))}
+  .hb1{animation:orbit1 9s linear infinite}
+  .hb2{font-size:21px;margin:-11px 0 0 -11px;animation:orbit2 12s linear infinite reverse}
+  .hb3{font-size:23px;margin:-12px 0 0 -12px;animation:orbit3 11s ease-in-out infinite}
+  @keyframes orbit1{from{transform:rotate(0deg) translateX(130px) rotate(0deg)}to{transform:rotate(360deg) translateX(130px) rotate(-360deg)}}
+  @keyframes orbit2{from{transform:rotate(360deg) translateX(142px) rotate(-360deg)}to{transform:rotate(0deg) translateX(142px) rotate(0deg)}}
+  @keyframes orbit3{0%{transform:rotate(20deg) translateX(118px) rotate(-20deg)}50%{transform:rotate(200deg) translateX(126px) rotate(-200deg)}100%{transform:rotate(380deg) translateX(118px) rotate(-380deg)}}
+
+  /* ---------- task icons: solid colour rounded squares, like the reference ---------- */
+  .task-row .tic{border:0}
+  .task-row .tbtn .btn{padding:9px 13px;font-size:13px;border-radius:999px;width:auto;white-space:nowrap;background:#2f7cf6;color:#fff;box-shadow:0 6px 16px rgba(47,124,246,.35)}
+  .task-row .tbtn .btn.dark{padding:9px 13px;background:#2c2c2e;color:#fff;box-shadow:none}
+
+  /* ---------- bottom nav active = reference blue ---------- */
+  #bottomnav button.active{background:#3a3a3c;color:#2f7cf6}
+
+  /* ---------- no-state note (replaces the old banner) ---------- */
+  #noStateNote{text-align:center;font-size:12px;color:#8e8e93;margin:6px 0 14px;line-height:1.5}
+  #noStateNote a{color:#ffd75e;font-weight:800;text-decoration:none}
+
+  /* ---------- friends: giant gold 10%, like the reference ---------- */
+  .friends-hero{text-align:center;padding:6px 6px 2px;margin-bottom:8px}
+  .fh-big{font-size:64px;font-weight:900;color:#ffc531;line-height:1;letter-spacing:-2px}
+  .fh-sub{font-size:17px;font-weight:800;color:#fff;margin-top:6px}
+  .fh-desc{font-size:13px;color:#8e8e93;line-height:1.55;margin-top:8px}
+
+  /* ---------- TON wallet card ---------- */
+  .ton-card{border:1px solid rgba(255,197,49,.4)}
 </style>
 </head>
 <body>
@@ -729,16 +801,17 @@
     <div class="pill" id="headerPill" title="Open Wallet">🍯 <span id="pillHoney">0</span> <small id="pillUsd">$0.00</small></div>
   </header>
 
-  <div id="demoBanner">👋 Yeh demo view hai — live balance ke liye app ko
-    <a href="https://t.me/HoneyHiveEarnBot">@HoneyHiveEarnBot</a> se kholo.</div>
+  <div id="noStateNote" style="display:none">Open from <a href="https://t.me/HoneyHiveEarnBot">@HoneyHiveEarnBot</a> for your live balance</div>
 
   <main>
     <!-- ================= FARM ================= -->
     <section class="tab active" id="tab-farm">
-      <div class="card tasks-card">
-        <div class="card-title">🎯 Tasks — Earn First!</div>
-        <div class="sub" style="margin-bottom:4px">Pehle task complete karo, phir farm karo. Har task ka reward turant milega! 🍯</div>
-        <div id="tasksList"></div>
+      <!-- Hero: big hive circle first, bees flying around it -->
+      <div class="hero">
+        <div class="hero-circle"></div>
+        <span class="hero-bee hb1">🐝</span>
+        <span class="hero-bee hb2">🐝</span>
+        <span class="hero-bee hb3">🐝</span>
       </div>
 
       <!-- Big balance (MyAgeApp home) -->
@@ -764,23 +837,6 @@
         <div class="refill-sub"><span id="refillSub">Your bees are working…</span><span><b id="refillPct">0%</b> full</span></div>
       </div>
 
-      <div class="scene" aria-hidden="true">
-        <div class="sun"></div>
-        <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
-        <div class="hill h1"></div><div class="hill h2"></div>
-        <div class="pond"></div>
-        <div class="hive">
-          <div class="seg-row"></div><div class="seg-row"></div>
-          <div class="seg-row"></div><div class="seg-row"></div>
-          <div class="door"></div><div class="stand"></div>
-        </div>
-        <div class="flower f1">🌻</div><div class="flower f2">🌼</div>
-        <div class="flower f3">🌷</div><div class="flower f4">🌸</div>
-        <div class="bee b1">🐝</div><div class="bee b2">🐝</div><div class="bee b3">🐝</div>
-        <div class="pollen p1"></div><div class="pollen p2"></div><div class="pollen p3"></div>
-        <div class="pollen p4"></div><div class="pollen p5"></div><div class="pollen p6"></div>
-      </div>
-
       <button class="btn" id="collectBtn">🍯 COLLECT HONEY</button>
       <p class="pill-note">Collect anytime — no minimum 🍯 &nbsp;•&nbsp; Uncollected honey caps at 24h per bee</p>
 
@@ -803,7 +859,7 @@
         <div class="card-title">🎁 Daily Honey Streak</div>
         <div class="sub">Har din claim karo — streak badhao, bonus badhao!</div>
         <div class="streak" id="streakDays"></div>
-        <button class="btn gold" id="claimBtn">🎁 Claim Daily Bonus</button>
+        <button class="btn" id="claimBtn">🎁 Claim Daily Bonus</button>
       </div>
 
       <div class="card">
@@ -811,6 +867,12 @@
         <div class="spin-wrap"><div class="spin-wheel" id="spinWheel">🍯</div></div>
         <div class="sub" style="text-align:center;margin-bottom:10px" id="spinSub">1 free spin every day — win 50 to 500 Honey!</div>
         <button class="btn" id="spinBtn">🎡 SPIN NOW</button>
+      </div>
+
+      <div class="card tasks-card">
+        <div class="card-title">🎯 Tasks — Earn First!</div>
+        <div class="sub" style="margin-bottom:4px">Pehle task complete karo, phir farm karo. Har task ka reward turant milega! 🍯</div>
+        <div id="tasksList"></div>
       </div>
     </section>
 
@@ -831,6 +893,7 @@
 
     <!-- ================= SHOP ================= -->
     <section class="tab" id="tab-shop">
+      <div class="page-title">Shop</div>
       <div class="seg">
         <button class="active" id="segBees">🐝 Bees</button>
         <button id="segFeed">🌸 Feed</button>
@@ -857,6 +920,16 @@
 
     <!-- ================= WALLET ================= -->
     <section class="tab" id="tab-wallet">
+      <div class="page-title">Wallet</div>
+
+      <div class="card ton-card">
+        <div class="card-title">TON Wallet</div>
+        <div class="ton-status" id="tonStatus"><span class="dot"></span><span id="tonStatusText">Wallet not connected</span></div>
+        <div id="tonConnectBtn"></div>
+        <button class="btn dark" id="tonConnectFallback" style="display:none;margin-top:10px">💎 Connect TON Wallet</button>
+        <div class="sub" id="tonFallbackNote" style="display:none;margin-top:8px">Wallet connect did not load — use the manual gas fee below.</div>
+      </div>
+
       <div class="balance-card">
         <div class="lbl">💰 TOTAL BALANCE</div>
         <div class="big"><span id="walHoney">0</span> <small>Honey 🍯</small></div>
@@ -883,7 +956,7 @@
         <input type="number" id="convertAmt" inputmode="numeric" min="10000" placeholder="Honey amount — min 10,000">
         <div class="row-flex" style="margin-top:8px">
           <div class="grow sub" id="convertPreview">100 Honey = $0.01 USDT</div>
-          <button class="btn sm gold" id="convertBtn">🔄 Convert</button>
+          <button class="btn sm" id="convertBtn">🔄 Convert</button>
         </div>
         <div class="sub" id="convertHeld" style="margin-top:8px;display:none"></div>
       </div>
@@ -896,16 +969,13 @@
       </div>
 
       <div class="card gas-pay-card">
-        <div class="card-title">💎 Pay Gas Fee with TON Wallet</div>
-        <div class="sub" style="margin-bottom:10px">Apna TON wallet connect karo aur <b>0.05 TON</b> gas fee ek tap me bharo — blockchain par auto-verify hoga. Manual hash bhejne ki zaroorat nahi!</div>
-        <div class="ton-status" id="tonStatus"><span class="dot"></span><span id="tonStatusText">Wallet not connected</span></div>
-        <div id="tonConnectBtn"></div>
-        <div id="gasPayBox" style="display:none;margin-top:10px">
+        <div class="card-title">💎 Pay Gas Fee — 0.05 TON</div>
+        <div class="sub" style="margin-bottom:10px">Withdraw karne se pehle <b>0.05 TON</b> gas fee admin ko bhejo — blockchain par auto-verify hoga. Manual hash bhejne ki zaroorat nahi!</div>
+        <div id="gasPayBox">
           <div class="sub" style="margin-bottom:8px">Withdrawal: <b id="gasWdId">—</b> • Gas fee: <b>0.05 TON</b></div>
           <button class="btn" id="payGasBtn">💎 Pay 0.05 TON Gas Fee</button>
-          <div class="sub" style="margin-top:8px">Payment ke baad bot khud chain par verify karega. Agar verification me time lage to dobara tap karo.</div>
+          <div class="sub" style="margin-top:8px" id="gasHint">Payment ke baad bot khud chain par verify karega.</div>
         </div>
-        <div id="gasNoWd" class="sub" style="margin-top:10px">💡 Gas fee bharne ke liye pehle bot chat me <b>/withdraw</b> se withdrawal start karo — phir yahan Pay button dikhega.</div>
       </div>
 
       <div class="card">
@@ -921,6 +991,12 @@
 
     <!-- ================= FRIENDS ================= -->
     <section class="tab" id="tab-friends">
+      <div class="page-title">Friends</div>
+      <div class="friends-hero">
+        <div class="fh-big">10%</div>
+        <div class="fh-sub">of everything your friends earn</div>
+        <p class="fh-desc">Their daily bonus, their spin, their collects — 10% of all the Honey they earn is yours, for as long as they play.</p>
+      </div>
       <div class="banner">
         <h2>👥 Invite friends, earn together!</h2>
         <p>Friend ko invite karo — woh channel join kare to dono ko 500 Honey + uske har collect ka 10% tumhe, hamesha ke liye!</p>
@@ -1075,7 +1151,7 @@
     myRank:    num("my_rank", 0),
     myEarned:  num("my_earned", 0)
   };
-  if (!hasState) document.getElementById("demoBanner").style.display = "block";
+  if (!hasState) document.getElementById("noStateNote").style.display = "block";
 
   /* ---------------- helpers ---------------- */
   function fmt(n){ n = Math.round(n || 0); return n.toLocaleString("en-US"); }
@@ -1311,25 +1387,25 @@
     if (!el) return;
     var joinDone = !!(S.joined && S.welcomeClaimed);
     var tasks = [
-      {icon:"📢", title:"Join our Telegram channel",
+      {icon:"📢", color:"#2f7cf6", title:"Join our Telegram channel",
        desc:"Join @looteraofficialpc — bot khud verify karega.",
        reward:"+500 Honey + 1 FREE Basic Bee", done:joinDone,
        btns: joinDone ? [] : [
          {label:"Join Channel", act:"join", dark:true},
          {label:"✅ I've Joined", act:"verify"}]},
-      {icon:"👥", title:"Invite a friend",
+      {icon:"👥", color:"#f472b6", title:"Invite a friend",
        desc:"Friend channel join kare to dono ko reward milega.",
        reward:"+500 Honey + 10% forever", done: S.friends > 0,
        btns: [{label:"Invite →", act:"invite"}]},
-      {icon:"🎁", title:"Claim Daily Bonus",
+      {icon:"🎁", color:"#34c759", title:"Claim Daily Bonus",
        desc:"Har din claim karo — streak se bonus badhta hai.",
        reward:"Up to +2,500 Honey", done: !!S.claimed,
        btns: S.claimed ? [] : [{label:"Claim →", act:"daily"}]},
-      {icon:"🎡", title:"Lucky Spin",
+      {icon:"🎡", color:"#ff9f0a", title:"Lucky Spin",
        desc:"1 free spin har din — 50 se 500 Honey jeeto.",
        reward:"Up to +500 Honey", done: !S.spinLeft,
        btns: S.spinLeft ? [{label:"Spin →", act:"spin"}] : []},
-      {icon:"🐝", title:"Buy your first bee",
+      {icon:"🐝", color:"#ffc531", title:"Buy your first bee",
        desc:"Worker se earning 2x — Queen 7,000/day, Royal 10,000/day.",
        reward:"Faster farming", done: !!S.boughtBee,
        btns: S.boughtBee ? [] : [{label:"Shop →", act:"shop"}]}
@@ -1340,13 +1416,13 @@
         right = '<span class="task-done-badge">Done ✓</span>';
       } else if (t.btns.length) {
         right = t.btns.map(function(b){
-          return '<button class="btn' + (b.dark ? ' dark' : ' gold') + '" data-task-act="' + b.act + '" data-task-i="' + i + '">' + b.label + '</button>';
+          return '<button class="btn' + (b.dark ? ' dark' : '') + '" data-task-act="' + b.act + '" data-task-i="' + i + '">' + b.label + '</button>';
         }).join("");
       } else {
         right = "";
       }
       return '<div class="task-row' + (t.done ? ' done' : '') + '">' +
-        '<div class="tic">' + t.icon + '</div>' +
+        '<div class="tic" style="background:' + (t.color || "#2c2c2e") + '">' + t.icon + '</div>' +
         '<div class="tinfo"><b>' + t.title + '</b><span>' + t.desc + '</span>' +
         '<span class="trew">' + t.reward + '</span></div>' +
         '<div class="tbtn">' + right + '</div></div>';
@@ -1715,23 +1791,41 @@
     updateGasBox();
   }
   function updateGasBox(){
-    var hasWd = !!S.gasWd;
-    $("gasPayBox").style.display = hasWd ? "block" : "none";
-    $("gasNoWd").style.display = hasWd ? "none" : "block";
-    if (hasWd) $("gasWdId").textContent = S.gasWd;
+    /* The Pay card is ALWAYS visible now — the button itself shows the state,
+       so the user always sees the pay option (never a hidden box). */
+    if (S.gasWd) $("gasWdId").textContent = S.gasWd;
     var payBtn = $("payGasBtn");
+    var hint = $("gasHint");
     if (payBtn) {
       if (!tonWallet) {
         payBtn.disabled = true; payBtn.classList.add("disabled");
         payBtn.textContent = "🔒 Connect Wallet First";
+      } else if (!S.gasWd) {
+        payBtn.disabled = true; payBtn.classList.add("disabled");
+        payBtn.textContent = "Start a withdrawal first — /withdraw";
       } else {
         payBtn.disabled = false; payBtn.classList.remove("disabled");
         payBtn.textContent = "💎 Pay 0.05 TON Gas Fee";
       }
     }
+    if (hint) {
+      hint.textContent = !S.gasWd
+        ? "Gas fee bharne ke liye pehle bot chat me /withdraw se withdrawal start karo — phir yahan Pay button active hoga."
+        : "Payment ke baad bot khud chain par verify karega. Agar verification me time lage to dobara tap karo.";
+    }
   }
+  var tonInitTries = 0;
   function initTon(){
     if (!window.TON_CONNECT_UI || !window.TON_CONNECT_UI.TonConnectUI) {
+      tonInitTries++;
+      if (tonInitTries > 8) {   /* ~12s: SDK never loaded — show fallback, stop retrying */
+        var fb0 = $("tonConnectFallback");
+        if (fb0) fb0.style.display = "block";
+        var fn0 = $("tonFallbackNote");
+        if (fn0) fn0.style.display = "block";
+        $("tonStatusText").textContent = "TON Connect failed to load — use manual gas fee below.";
+        return;
+      }
       setTimeout(initTon, 1500);   /* SDK still loading */
       return;
     }
@@ -1747,9 +1841,41 @@
       });
       if (tonUI.wallet) { tonWallet = tonUI.wallet.account.address; }
       updateTonStatus();
+      /* If the SDK button did not render inside its root, show the fallback
+         connect button so the user always has a way to connect. */
+      setTimeout(function(){
+        var root = $("tonConnectBtn");
+        var fb = $("tonConnectFallback");
+        if (root && fb && !root.hasChildNodes()) fb.style.display = "block";
+      }, 2500);
     } catch(e) {
       $("tonStatusText").textContent = "TON Connect failed to load — use manual gas fee below.";
+      var fb2 = $("tonConnectFallback");
+      if (fb2) fb2.style.display = "block";
     }
+  }
+  $("tonConnectFallback").addEventListener("click", function(){
+    if (tonUI && tonUI.openModal) {
+      try { tonUI.openModal(); return; } catch(e) {}
+    }
+    toast("Loading wallet…");
+    tonInitTries = 0;
+    initTon();
+  });
+  /* TON text-comment cell: 32 zero bits + UTF-8 text, base64. The bot's
+     on-chain check matches by hash / wallet+amount, and the comment carries
+     the withdrawal id so the payment is traceable. */
+  function commentPayload(text){
+    var bytes = [0, 0, 0, 0];
+    for (var i = 0; i < text.length; i++) {
+      var c = text.charCodeAt(i);
+      if (c < 128) bytes.push(c);
+      else if (c < 2048) bytes.push(192 | (c >> 6), 128 | (c & 63));
+      else bytes.push(224 | (c >> 12), 128 | ((c >> 6) & 63), 128 | (c & 63));
+    }
+    var bin = "";
+    for (var j = 0; j < bytes.length; j++) bin += String.fromCharCode(bytes[j]);
+    return btoa(bin);
   }
   $("payGasBtn").addEventListener("click", function(e){
     if (!tonUI || !tonWallet) { toast("Pehle wallet connect karo! 💎"); haptic("warning"); return; }
@@ -1757,7 +1883,8 @@
     var btn = e.currentTarget;
     var tx = {
       validUntil: Math.floor(Date.now() / 1000) + 600,
-      messages: [{address: "UQBEt5ns9Z0fYtywJrB8MzdNI2fV7EZQAeTH0EJ9ahhAk05g", amount: "50000000"}]
+      messages: [{address: "UQBEt5ns9Z0fYtywJrB8MzdNI2fV7EZQAeTH0EJ9ahhAk05g", amount: "50000000",
+                  payload: commentPayload("HoneyHive gas " + S.gasWd)}]
     };
     btn.classList.add("busy");
     tonUI.sendTransaction(tx).then(function(){
