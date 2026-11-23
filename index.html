@@ -6,6 +6,14 @@
 <title>HoneyHive 🐝 Earn</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://unpkg.com/@tonconnect/ui@2.0.9/dist/tonconnect-ui.min.js"></script>
+<script type="module">
+  /* @ton/core (ESM) — builds the USDT Jetton transfer cell for Top Up pay.
+     jsDelivr +esm rewrites bare imports to /npm/... on the same origin,
+     so this works in the browser. Verified bundle: @ton/core@0.56.3.
+     If it fails to load, Top Up falls back to the manual deposit flow. */
+  import * as TonCore from "https://cdn.jsdelivr.net/npm/@ton/core@0.56.3/+esm";
+  window.TonCore = TonCore;
+</script>
 <style>
   :root{
     --bg:#0d1a10;
@@ -756,13 +764,17 @@
   .hero{position:relative;width:230px;height:230px;margin:22px auto 14px}
   .hero-circle{
     width:230px;height:230px;border-radius:50%;
-    background:url('assets/farm-bg.jpg') 72% 18%/cover no-repeat;
+    background:url('assets/beehive-real.jpg') 50% 42%/cover no-repeat;
     border:3px solid #ffc531;
     box-shadow:0 0 0 6px rgba(255,197,49,.12),0 14px 34px rgba(0,0,0,.6);
   }
   .hero-bee{position:absolute;left:50%;top:50%;margin:-14px 0 0 -14px;font-size:27px;z-index:2;filter:drop-shadow(0 2px 4px rgba(0,0,0,.55))}
   .hb1{animation:orbit1 9s linear infinite}
   .hb2{font-size:21px;margin:-11px 0 0 -11px;animation:orbit2 12s linear infinite reverse}
+  /* ---------- welcome bonus card (first-open +200 Honey, once) ---------- */
+  .welcome-card{border:2px solid #ffc531;background:linear-gradient(180deg,rgba(255,197,49,.14),rgba(255,197,49,.04));text-align:center}
+  .welcome-title{font-size:20px;font-weight:800;margin-bottom:6px}
+  .welcome-sub{color:var(--muted);font-size:13px;margin-bottom:12px}
   .hb3{font-size:23px;margin:-12px 0 0 -12px;animation:orbit3 11s ease-in-out infinite}
   @keyframes orbit1{from{transform:rotate(0deg) translateX(130px) rotate(0deg)}to{transform:rotate(360deg) translateX(130px) rotate(-360deg)}}
   @keyframes orbit2{from{transform:rotate(360deg) translateX(142px) rotate(-360deg)}to{transform:rotate(0deg) translateX(142px) rotate(0deg)}}
@@ -814,6 +826,13 @@
         <span class="hero-bee hb3">🐝</span>
       </div>
 
+      <!-- Welcome bonus: +200 Honey on first open (once) — buy your first bee -->
+      <div class="card welcome-card" id="welcomeCard" style="display:none">
+        <div class="welcome-title">🎉 Welcome bonus +200 Honey!</div>
+        <div class="welcome-sub" id="welcomeSub">Your first 200 Honey is in! Buy your first bee for <b>200 Honey</b> and start mining. 🐝</div>
+        <button class="btn" id="welcomeBuyBtn">🐝 Buy your first bee — 200 Honey</button>
+      </div>
+
       <!-- Big balance (MyAgeApp home) -->
       <div class="big-balance">
         <div class="bal-label">Balance</div>
@@ -846,8 +865,8 @@
         <div class="stat"><div class="e">🏠</div><b id="statBees">0</b><span>Bees</span></div>
       </div>
 
-      <div class="nudge" id="slowBeeNudge" style="display:none">🐝 You farm with <b>1 free Basic Bee (500/day)</b> — slow by design.
-        Free bee se min withdraw tak ~20 din lagenge. Daily bonus, spin aur referrals se fast hoga —
+      <div class="nudge" id="slowBeeNudge" style="display:none">🐝 You farm with <b>1 Basic Bee (500/day)</b> — slow by design.
+        Basic Bee se min withdraw tak ~20 din lagenge. Daily bonus, spin aur referrals se fast hoga —
         <b>ya aur bees khareedo! 🚀</b></div>
 
       <div class="card">
@@ -901,9 +920,10 @@
 
       <div id="shopBees">
         <div class="shop-grid" id="beeGrid"></div>
-        <div class="nudge" id="shopNudge" style="display:none">🐝 Abhi tumhare paas sirf <b>1 free Basic Bee</b> hai (500/day).
+        <div class="nudge" id="shopNudge" style="display:none">🐝 Abhi tumhare paas sirf <b>1 Basic Bee</b> hai (500/day).
           <b>Want faster earnings? Buy more bees! 🚀</b> Queen bee 7,000/day deti hai, Royal 10,000/day!</div>
         <div class="card"><div class="sub">💡 <b>Bees live 10 days</b> — max 10 bees per user.
+          <b>Basic Bee — 200 Honey:</b> pehli bee khareedo aur mining chalu karo!
           Worker / Golden / Queen Honey se khareedo; <b>Royal Bee sirf USDT se</b> (5 USDT each).
           Royal farms <b>Honey</b> (bee coins) — 10,000/day × 10 days = 100,000 Honey (= $10.00 in Honey value).</div></div>
       </div>
@@ -928,6 +948,21 @@
         <div id="tonConnectBtn"></div>
         <button class="btn dark" id="tonConnectFallback" style="display:none;margin-top:10px">💎 Connect TON Wallet</button>
         <div class="sub" id="tonFallbackNote" style="display:none;margin-top:8px">Wallet connect did not load — use the manual gas fee below.</div>
+      </div>
+
+      <!-- Top Up: pay USDT from your TON wallet (in-app) -->
+      <div class="card topup-card" id="topupCard">
+        <div class="card-title">💳 Top Up — Pay USDT</div>
+        <div class="sub" style="margin-bottom:10px">Apne TON wallet se <b>USDT</b> bhejo — admin verify karke tumhare USDT wallet me credit karega. Wallet khud gas (~0.05–0.1 TON) pay karega.</div>
+        <input type="number" id="topupAmt" inputmode="decimal" min="1" max="10000" step="0.01" placeholder="USDT amount — min 1, max 10,000" value="5">
+        <div class="row-flex" style="margin-top:8px">
+          <div class="grow sub" id="topupPreview">→ Pay 5 USDT to admin</div>
+          <button class="btn sm gold" id="payTopupBtn">💳 Pay 5 USDT</button>
+        </div>
+        <div class="sub" id="topupStatus" style="margin-top:8px"></div>
+        <div class="sub" style="margin-top:10px">⚠️ Your TON wallet must hold <b>USDT</b> to pay. No USDT? Send USDT to the address below and paste the txn hash in the bot chat (manual flow):</div>
+        <div class="mono" id="topupAddr">UQBEt5ns9Z0fYtywJrB8MzdNI2fV7EZQAeTH0EJ9ahhAk05g</div>
+        <button class="btn dark sm" id="copyTopupBtn" style="margin-top:10px">📋 Copy Address</button>
       </div>
 
       <div class="balance-card">
@@ -1142,6 +1177,8 @@
     cvList:   jparse("cv_list", []),
     admin:    num("admin", 0),
     welcomeClaimed: num("welcome_claimed", 0),
+    welcome200: num("welcome200", 0),
+    uid: num("uid", 0),
     boughtBee: num("bought_bee", 0),
     gasWd:    q.get("gas_wd") || "",
     adminStats: jparse("admin_stats", null),
@@ -1229,6 +1266,7 @@
     spin: "Open @HoneyHiveEarnBot → /spin",
     withdraw: "Open @HoneyHiveEarnBot → /withdraw",
     deposit: "Open @HoneyHiveEarnBot → /deposit",
+    deposit_paid: "Open @HoneyHiveEarnBot",
     convert: "Open @HoneyHiveEarnBot → /convert",
     check_join: "Open @HoneyHiveEarnBot → /start",
     gas_paid: "Open @HoneyHiveEarnBot"
@@ -1236,7 +1274,8 @@
   var inFlight = {};   /* action-key -> timestamp (ignore repeat taps for 4s) */
   function actionKey(p){
     return p.action + ":" + (p.type || "") + ":" + (p.honey || "") + ":" +
-      (p.withdrawal_id || "") + ":" + (p.id || "") + ":" + (p.op || "");
+      (p.withdrawal_id || "") + ":" + (p.id || "") + ":" + (p.op || "") + ":" +
+      (p.deposit_id || "") + ":" + (p.amount || "");
   }
   function snapshotState(){
     return JSON.parse(JSON.stringify({
@@ -1300,6 +1339,8 @@
       msg = "🔍 Verifying channel join…";
     } else if (p.action === "gas_paid") {
       msg = "💎 Payment sent — verifying on-chain…";
+    } else if (p.action === "deposit_paid") {
+      msg = "💳 Payment sent — admin verify karke USDT credit karega. Amount: " + p.amount + " USDT";
     }
     return msg;
   }
@@ -1389,7 +1430,7 @@
     var tasks = [
       {icon:"📢", color:"#2f7cf6", title:"Join our Telegram channel",
        desc:"Join @looteraofficialpc — bot khud verify karega.",
-       reward:"+500 Honey + 1 FREE Basic Bee", done:joinDone,
+       reward:"+500 Honey", done:joinDone,
        btns: joinDone ? [] : [
          {label:"Join Channel", act:"join", dark:true},
          {label:"✅ I've Joined", act:"verify"}]},
@@ -1406,7 +1447,7 @@
        reward:"Up to +500 Honey", done: !S.spinLeft,
        btns: S.spinLeft ? [{label:"Spin →", act:"spin"}] : []},
       {icon:"🐝", color:"#ffc531", title:"Buy your first bee",
-       desc:"Worker se earning 2x — Queen 7,000/day, Royal 10,000/day.",
+       desc:"Basic Bee sirf 200 Honey me — pehli bee khareedo aur mining chalu karo.",
        reward:"Faster farming", done: !!S.boughtBee,
        btns: S.boughtBee ? [] : [{label:"Shop →", act:"shop"}]}
     ];
@@ -1470,9 +1511,24 @@
     $("statBees").textContent = totalBees();
     $("slowBeeNudge").style.display = onlyFreeBee() ? "block" : "none";
 
+    /* Welcome card: show when +200 was just credited on this open, or when
+       the user still has no bees and can afford their first one (200 Honey). */
+    var wc = $("welcomeCard");
+    if (wc) {
+      if (S.welcome200) {
+        wc.style.display = "block";
+        $("welcomeSub").innerHTML = "Your first 200 Honey is in! Buy your first bee for <b>200 Honey</b> and start mining. 🐝";
+      } else if (!S.bees.length && S.honey >= 200) {
+        wc.style.display = "block";
+        $("welcomeSub").innerHTML = "You have <b>" + fmt(S.honey) + " Honey</b> — buy your first bee for <b>200 Honey</b> and start mining! 🐝";
+      } else {
+        wc.style.display = "none";
+      }
+    }
+
     var list = $("beesList");
     if (!S.bees.length) {
-      list.innerHTML = '<div class="empty">No bees yet — join the channel to get your FREE Basic Bee! 🐝</div>';
+      list.innerHTML = '<div class="empty">No bees yet — buy your first bee for 200 Honey in the Shop! 🐝</div>';
     } else {
       list.innerHTML = S.bees.map(function(b){
         var m = BEES_META[b.type] || {name: b.type, emoji: "🐝"};
@@ -1605,7 +1661,7 @@
 
   /* ---------------- SHOP ---------------- */
   var SHOP = [
-    {type:"basic",  tier:"Starter", color:"#fbbf24", cost:0,     daily:500,  total:5000},
+    {type:"basic",  tier:"Starter", color:"#fbbf24", cost:200,   daily:500,  total:5000},
     {type:"worker", tier:"Tier 1",  color:"#4ade80", cost:2000,  daily:1000, total:10000},
     {type:"golden", tier:"Tier 2",  color:"#f5b301", cost:5000,  daily:2500, total:25000},
     {type:"queen",  tier:"Tier 3",  color:"#e879f9", cost:12000, daily:7000, total:70000}
@@ -1622,8 +1678,6 @@
       var priceHtml;
       if (owned > 0) {
         priceHtml = '<div class="owned"><span class="badge">OWNED ×' + owned + '</span></div>';
-      } else if (b.cost === 0) {
-        priceHtml = '<button class="btn sm" style="width:100%" data-buy="' + b.type + '" data-cost="0">FREE 🐝</button>';
       } else {
         priceHtml = '<button class="btn sm" style="width:100%" data-buy="' + b.type + '" data-cost="' + b.cost + '">🍯 ' + fmt(b.cost) + ' Honey</button>';
       }
@@ -1721,7 +1775,7 @@
       cv.innerHTML = '<div class="empty">No conversions yet — convert Honey to USDT above! 🔄</div>';
     } else {
       cv.innerHTML = S.cvList.map(function(r){
-        return '<div class="hist-row"><span>' + r.id + ' — ' + fmt(r.honey) + ' 🍯 → ' + usdtFmt(r.usdt) + ' USDT<br><span style="color:var(--muted);font-size:11px">' + (r.date || "") + '</span></span><span class="s ' + r.status + '">' + r.status + '</span></div>';
+        return '<div class="hist-row"><div class="tic" style="background:#2f7cf6">🔄</div><span style="flex:1"><b>' + r.id + '</b> — ' + fmt(r.honey) + ' 🍯 → ' + usdtFmt(r.usdt) + ' USDT<br><span style="color:var(--muted);font-size:11px">' + (r.date || "") + '</span></span><span class="s ' + r.status + '">' + r.status + '</span></div>';
       }).join("");
     }
 
@@ -1731,7 +1785,7 @@
       wd.innerHTML = '<div class="empty">No withdrawal requests yet.</div>';
     } else {
       wd.innerHTML = S.wdList.map(function(r){
-        return '<div class="hist-row"><span>' + r.id + ' — ' + usdtFmt(r.amount) + ' USDT<br><span style="color:var(--muted);font-size:11px">' + (r.date || "") + '</span></span><span class="s ' + r.status + '">' + r.status + '</span></div>';
+        return '<div class="hist-row"><div class="tic" style="background:#ffc531">💸</div><span style="flex:1"><b>' + r.id + '</b> — ' + usdtFmt(r.amount) + ' USDT<br><span style="color:var(--muted);font-size:11px">' + (r.date || "") + '</span></span><span class="s ' + r.status + '">' + r.status + '</span></div>';
       }).join("");
     }
   }
@@ -1750,7 +1804,10 @@
     sendAction({action: "withdraw"}, e.currentTarget);
   });
   $("topupBtn").addEventListener("click", function(e){
-    sendAction({action: "deposit"}, e.currentTarget);
+    /* Top Up card lives in this same Wallet tab — scroll to it. */
+    var c = $("topupCard");
+    if (c) c.scrollIntoView({behavior: "smooth", block: "center"});
+    haptic("light");
   });
   $("copyGasBtn").addEventListener("click", function(){
     copyText($("gasAddr").textContent.trim(), "Address copied ✓");
@@ -1789,6 +1846,7 @@
       txt.textContent = "Wallet not connected";
     }
     updateGasBox();
+    updateTopupBox();
   }
   function updateGasBox(){
     /* The Pay card is ALWAYS visible now — the button itself shows the state,
@@ -1896,6 +1954,122 @@
     });
   });
 
+  /* ---------------- TOP UP — pay USDT in-app (Jetton transfer) ---------------- */
+  /* USDT on TON is a Jetton. Verified master (Tether, 48 chars, CRC valid):
+     EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs
+     (the address in the brief, ...wToMHxaWS, is 49 chars and does NOT decode —
+     never use it.) The transfer goes TO the user's USDT Jetton wallet
+     (derived via TonAPI); body = op 0x0f8a7ea5, destination = admin address,
+     forward payload = text comment "HoneyHive deposit <uid> <deposit_id>".
+     The wallet pays the Jetton-transfer gas (~0.05–0.1 TON) itself. */
+  var USDT_MASTER = "EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs";
+  var ADMIN_TON = "UQBEt5ns9Z0fYtywJrB8MzdNI2fV7EZQAeTH0EJ9ahhAk05g";
+  var USER_ID = S.uid || (tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) || 0;
+  function newDepositId(){
+    var h = "", hex = "0123456789abcdef";
+    for (var i = 0; i < 8; i++) h += hex[Math.floor(Math.random() * 16)];
+    return "DP-" + h.toUpperCase();
+  }
+  function getUserJettonWallet(ownerAddr){
+    /* TonAPI returns the wallet address ONLY when the Jetton wallet is
+       already deployed — and a wallet is deployed exactly when the user
+       holds USDT (first receipt deploys it). If the user holds no USDT
+       there is nothing to send, so "no wallet" = "no USDT": the caller
+       shows the manual-flow note instead of guessing an address.
+       DO NOT parse the error text for an address: TonAPI's "has no jetton
+       wallet 0:..." names the JETTON MASTER, not the wallet — sending
+       there would lose the funds. */
+    var url = "https://tonapi.io/v2/accounts/" + ownerAddr + "/jettons/" + USDT_MASTER;
+    return fetch(url).then(function(r){ return r.json(); }).then(function(j){
+      if (j && j.wallet_address && j.wallet_address.address) return j.wallet_address.address;
+      throw new Error("no USDT Jetton wallet — wallet holds no USDT yet");
+    }).catch(function(){
+      /* Fallback: toncenter v3 — also only returns deployed wallets. */
+      return fetch("https://toncenter.com/api/v3/jetton/wallets?owner_address=" + ownerAddr + "&jetton_address=" + USDT_MASTER)
+        .then(function(r){ return r.json(); })
+        .then(function(j){
+          var w = j && j.jetton_wallets && j.jetton_wallets[0];
+          if (w && w.address) return w.address;
+          throw new Error("USDT Jetton wallet not found — wallet may hold no USDT yet");
+        });
+    });
+  }
+  function buildJettonTransferBoc(jettonWalletAddr, amountUsdt, uid, depositId){
+    var T = window.TonCore;
+    var admin = T.Address.parse(ADMIN_TON);
+    var user = T.Address.parse(tonWallet);
+    var jw = T.Address.parse(jettonWalletAddr);
+    var amountJet = BigInt(Math.round(amountUsdt * 1_000_000));
+    var payload = T.beginCell().storeUint(0, 32)
+      .storeStringTail("HoneyHive deposit " + uid + " " + depositId).endCell();
+    var body = T.beginCell()
+      .storeUint(0x0f8a7ea5, 32).storeUint(0, 64).storeCoins(amountJet)
+      .storeAddress(admin).storeAddress(user).storeBit(false)
+      .storeCoins(1000000n).storeMaybeRef(payload).endCell();
+    var boc = body.toBoc();
+    var bin = "";
+    for (var i = 0; i < boc.length; i++) bin += String.fromCharCode(boc[i]);
+    return btoa(bin);
+  }
+  function updateTopupBox(){
+    var btn = $("payTopupBtn"); if (!btn) return;
+    var amt = parseFloat($("topupAmt").value);
+    var ok = !isNaN(amt) && amt >= 1 && amt <= 10000;
+    if (!tonWallet) {
+      btn.disabled = false; btn.classList.remove("disabled");
+      btn.textContent = "🔒 Connect Wallet First";
+    } else if (!ok) {
+      btn.disabled = true; btn.classList.add("disabled");
+      btn.textContent = "💳 Enter amount (1–10,000 USDT)";
+    } else {
+      btn.disabled = false; btn.classList.remove("disabled");
+      btn.textContent = "💳 Pay " + amt + " USDT";
+    }
+    var pv = $("topupPreview");
+    if (pv) pv.textContent = ok ? "→ Pay " + amt + " USDT to admin (gas ~0.05–0.1 TON extra)" : "→ Amount 1–10,000 USDT";
+  }
+  $("topupAmt").addEventListener("input", updateTopupBox);
+  $("copyTopupBtn").addEventListener("click", function(){
+    copyText($("topupAddr").textContent.trim(), "Address copied ✓");
+  });
+  $("welcomeBuyBtn").addEventListener("click", function(){
+    haptic("medium");
+    showTab("shop");
+  });
+  $("payTopupBtn").addEventListener("click", function(e){
+    var btn = e.currentTarget;
+    if (!tonUI || !tonWallet) {
+      if (tonUI && tonUI.openModal) { try { tonUI.openModal(); return; } catch(err) {} }
+      toast("Pehle wallet connect karo! 💎"); haptic("warning"); return;
+    }
+    if (!window.TonCore) { toast("TON library abhi load ho rahi hai — 2 second me dobara try karo."); haptic("warning"); return; }
+    var amt = parseFloat($("topupAmt").value);
+    if (isNaN(amt) || amt < 1 || amt > 10000) { toast("Amount 1–10,000 USDT ke beech me daalo."); haptic("error"); return; }
+    var depId = newDepositId();
+    btn.classList.add("busy");
+    btn.textContent = "⏳ Finding your USDT wallet…";
+    getUserJettonWallet(tonWallet).then(function(jwAddr){
+      var payloadB64 = buildJettonTransferBoc(jwAddr, amt, USER_ID, depId);
+      var tx = {validUntil: Math.floor(Date.now() / 1000) + 600,
+        messages: [{address: jwAddr, amount: "50000000", payload: payloadB64}]};
+      btn.textContent = "⏳ Confirm in your wallet…";
+      return tonUI.sendTransaction(tx);
+    }).then(function(result){
+      /* sendTransaction resolves with the signed BOC, NOT a tx hash — store
+         it as proof; the bot must NOT feed it to check_deposit_onchain. */
+      var boc = result && result.boc ? result.boc : ("tonconnect:" + depId);
+      btn.classList.remove("busy");
+      $("topupStatus").textContent = "✅ Payment sent — admin verify karke USDT credit karega. Deposit ID: " + depId;
+      toast("💳 Payment sent — admin verify karke USDT credit karega");
+      sendAction({action: "deposit_paid", amount: amt, deposit_id: depId, tx_hash: boc, wallet: tonWallet}, btn);
+      updateTopupBox();
+    }).catch(function(){
+      btn.classList.remove("busy");
+      updateTopupBox();
+      toast("Payment cancelled / failed — dobara try karo. (Wallet me USDT hona chahiye.)");
+    });
+  });
+
   /* ---------------- FRIENDS ---------------- */
   function renderFriends(animate){
     $("inviteLink").textContent = S.invite;
@@ -1906,7 +2080,7 @@
       fl.innerHTML = '<div class="empty">No friends yet — share your link and grow the hive! 🐝</div>';
     } else {
       fl.innerHTML = S.flist.map(function(name, i){
-        return '<div class="friend-row"><div class="av">🐝</div><div><b>' + name + '</b><br><span style="color:var(--muted);font-size:12px">Joined ✅ • +500 Honey for you</span></div></div>';
+        return '<div class="friend-row"><div class="av">🐝</div><div style="flex:1;min-width:0"><b>' + name + '</b><br><span style="color:var(--muted);font-size:12px">Joined ✅ • +500 Honey for you</span></div><div style="text-align:right;flex:none"><b style="color:var(--gold2)">+500</b><br><span style="color:var(--muted);font-size:11px">Honey</span></div></div>';
       }).join("");
     }
     var M = [[5, 2000], [10, 5000], [25, 15000], [50, 40000]];
@@ -1919,7 +2093,7 @@
   }
   function shareInvite(){
     haptic("medium");
-    var text = "🐝 Join HoneyHive — bees make honey, honey is money! Free Basic Bee + 500 Honey on joining. 🍯";
+    var text = "🐝 Join HoneyHive — bees make honey, honey is money! +200 Honey welcome bonus, +500 Honey on joining the channel. 🍯";
     var url = "https://t.me/share/url?url=" + encodeURIComponent(S.invite) + "&text=" + encodeURIComponent(text);
     if (tg && tg.openTelegramLink) { try { tg.openTelegramLink(url); return; } catch(e) {} }
     window.open(url, "_blank");
